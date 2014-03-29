@@ -4,7 +4,7 @@ class Coord
     constructor: (@x, @y) ->
 
 class Player
-    constructor: (@game, @id) ->
+    constructor: (@game, @id, @avatar) ->
         @bucket = @game.plateforms.create 0, 0, 'ground'
         @bucket.playerParent = this
         @bucket.enableBody = true
@@ -20,6 +20,13 @@ class Player
 
     displayScore: () ->
         @scoreText.setText "player #{@id}: #{@score}"
+
+class Ball
+    constructor: (@balls, @coord, @score, @type) ->
+        star = @balls.create @coord, 0, 'star'
+        star.body.gravity.y = 500
+        star.body.bounce.y = 0.7
+
 
 class Game
     GameStatus =
@@ -49,16 +56,13 @@ class Game
     generate_fake_player: () ->
         x = y = 0
         for i in [0..4]
-            @players.push(new Player(this, i))
+            @players.push(new Player(this, i, null))
 
     generate_fake_balls: () ->
         for i in [0..12]
             rd = Math.random()
             if 0.95  < rd
-                star = @balls.create i * 80, 0, 'star'
-                star.body.gravity.y = 500
-                star.body.bounce.y = 0.7
-
+                new Ball(@balls, i*80, 10, 'facecat')
 
     set_players_position: () ->
         nbr_player = @players.length
@@ -82,7 +86,7 @@ class Game
       @phaser.add.sprite 0, 0, 'sky'
 
       @plateforms = @phaser.add.group()
-      @plateforms.enableBody = true;
+      @plateforms.enableBody = true
 
       @generate_fake_player()
 
@@ -92,7 +96,9 @@ class Game
       @balls = @phaser.add.group()
       @balls.enableBody = true;
       
-      @new_line = new Phaser.Line 64, 64, 200, 300
+      @new_line = new Phaser.Line 0, 0, 0, 0
+      @phaser.input.onDown.add(@click, this)
+
 
     collectBalls: (plateform, ball) ->
       plateform.playerParent.captureBall(ball)
@@ -100,8 +106,6 @@ class Game
     update: () ->
       @phaser.physics.arcade.overlap @plateforms, @balls, @collectBalls, null, this
       @phaser.physics.arcade.collide @balls, @new_line
-
-      @phaser.input.onDown.add(@click, this);
 
       @generate_fake_balls()
 
@@ -114,14 +118,11 @@ class Game
             console.log 'push line !'
 
     render: () ->
-      @phaser.debug.geom(@new_line);
-      @phaser.debug.rectangle(@new_line);
-
+      @phaser.debug.geom @new_line
+      @phaser.debug.rectangle @new_line
 
     click: (pointer) ->
       @dragging = true
       @new_line.start.set pointer.x, pointer.y
-
-
 
 game = new Game()
