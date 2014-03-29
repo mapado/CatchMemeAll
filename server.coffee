@@ -11,7 +11,7 @@ server.listen 4242
 # Serve  the client code
 app.use('/assets', express.static(__dirname + '/client/dist/assets'))
 app.get '/', (req, res) ->
-    res.sendfile(__dirname + '/client/index.html')
+    res.sendfile(__dirname + '/client/connect.html')
 
 # instantiate a new game
 game = new Game
@@ -31,19 +31,10 @@ game.eventEmitter.on 'character spawned', (character) ->
 io.sockets.on 'connection', (socket) ->
     player = new Player(socket.id)
 
-    if game.acceptsPlayer()
-        game.addPlayer(player)
-    else
-        socket.emit 'game full'
-
-    # Start the game when the required number of players have joined
-    if game.isReady()
-        io.sockets.emit 'game start'
-        game.start()
-
     # Send joining information to all players
     player.sayHello()
     socket.emit 'welcome', player
+    socket.emit 'player list', game.playerList
     io.sockets.emit 'new player', player
 
     # Handle disconnection
@@ -51,12 +42,11 @@ io.sockets.on 'connection', (socket) ->
         player.sayGoodbye()
         game.removePlayer(player)
 
-    socket.on 'logged in', (name, isTwitter) ->
-        player.name = name
-        io.sockets.emit('player updated', player)
+    socket.on 'logged in', (data) ->
+        player.name = data.name
 
         # if user is a twitter account, let's fetch his avatar
-        if isTwitter
+        if data.isTwitter
             http.get(
                 {
                     host: 'vader.mapado.com'
@@ -70,6 +60,19 @@ io.sockets.on 'connection', (socket) ->
                             player.avatar = data.avatar
                             io.sockets.emit('player updated', player)
             )
+
+        if game.acceptsPlayer()
+            game.addPlayer(player)
+        else
+            socket.emit 'game full'
+
+        io.sockets.emit('player updated', player)
+
+        # Start the game when the required number of players have joined
+        if game.isReady()
+            io.sockets.emit 'game start'
+            game.start()
+
 
     # Update the player score and broadcast its new score to all clients
     socket.on 'update score', (score) ->

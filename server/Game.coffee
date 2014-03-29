@@ -4,7 +4,7 @@ EventEmitter = (require 'events').EventEmitter
 
 
 class Game
-    @MAX_PLAYERS: 2 # 5
+    @MAX_PLAYERS: 5 # 5
     @NB_CHARACTERS_PER_PLAYER: 5 # 20
     @MAX_GAME_TIME = 5000
 
@@ -14,6 +14,7 @@ class Game
         @characterFhacktory = new CharacterFhacktory()
 
     addPlayer: (player) ->
+        player.position = @playerList.length + 1
         @playerList.push player
 
     removePlayer: (player) ->
