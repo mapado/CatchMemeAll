@@ -51,6 +51,16 @@ class Game
         for i in [0..4]
             @players.push(new Player(this, i))
 
+    generate_fake_balls: () ->
+        for i in [0..12]
+            rd = Math.random()
+            console.log rd
+            if 0.95  < rd
+                star = @balls.create i * 80, 0, 'star'
+                star.body.gravity.y = 6
+                star.body.bounce.y = 0.7
+
+
     set_players_position: () ->
         nbr_player = @players.length
         max_space_player = @phaser.width / (nbr_player + 1)
@@ -82,12 +92,6 @@ class Game
       #cursors = @phaser.input.keyboard.createCursorKeys()
       @balls = @phaser.add.group()
 
-      for i in [0..12]
-        star = @balls.create i * 70, 0, 'star'
-        star.body.gravity.y = 6
-        star.body.bounce.y = 0.7 #+ Math.random() * 0.2
-
-
 
     collectBalls: (plateform, ball) ->
       plateform.playerParent.captureBall(ball)
@@ -96,5 +100,6 @@ class Game
       @phaser.physics.overlap @plateforms, @balls, @collectBalls, null, this
       #@phaser.physics.collide @balls, @plateforms
       #@phaser.physics.overlap @balls, @collectStar, null, this
+      @generate_fake_balls()
 
 game = new Game()
