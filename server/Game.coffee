@@ -1,13 +1,16 @@
 require './toolbox.coffee'
 Character = require './Character.coffee'
+EventEmitter = (require 'events').EventEmitter
+
 
 class Game
     @MAX_PLAYERS: 2 # 5
-    @NB_CHARACTERS_PER_PLAYER: 20
-    @NB_CHARACTERS = @MAX_PLAYERS * @NB_CHARACTERS_PER_PLAYER
+    @NB_CHARACTERS_PER_PLAYER: 5 # 20
+    @MAX_GAME_TIME = 5000
 
     constructor: ()->
         @playerList = []
+        @eventEmitter = new EventEmitter()
 
     addPlayer: (player) ->
         @playerList.push player
@@ -22,30 +25,32 @@ class Game
         return @playerList.length == Game.MAX_PLAYERS
 
     start: ->
+        # Spawn a character at a random X position, at the top of the screen
+        # at random time intervals (bewteen 333ms and 3.333s)
         _this = this
 
         characterList = []
-
+        timeoutStep = 333  # in ms
+        steps = 0
         interval = setInterval(
             () ->
-                console.log 'start interval'
-                if characterList.length >= Game.NB_CHARACTERS
+                if steps > Game.MAX_GAME_TIME / timeoutStep
+                    _this.eventEmitter.emit('timeout')
                     clearInterval(interval)
                     return
 
-                character = _this.generateCharacter()
+                character = _this.spanwCharacter()
                 setTimeout(
                     () ->
                         characterList.push character
                         console.log 'character position: ' + character.startX
-                    Math.floor(Math.random() * 5000)
+                    Math.floor(Math.random() * 3000)
                 )
-
-            100
+                steps += 1
+            timeoutStep
         )
 
-
-    generateCharacter: ->
+    spanwCharacter: () ->
         startX = Math.random()
         return new Character(startX)
 

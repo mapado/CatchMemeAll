@@ -8,13 +8,17 @@ io = (require 'socket.io').listen server
 
 server.listen 4242
 
-
-
 app.get '/', (req, res) ->
     res.sendfile(__dirname + '/index.html')
 
+# instantiate a new game
 game = new Game
+game.eventEmitter.on 'timeout', (e) ->
+    # Intercepts game timeout and stop it
+    console.log('timeout!')
 
+# Handle player connection and disconnection
+# When the required number of players have joined, start the game
 io.sockets.on 'connection', (socket) ->
     player = new Player(socket.id)
 
