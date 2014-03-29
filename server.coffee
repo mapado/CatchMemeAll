@@ -65,7 +65,11 @@ io.sockets.on 'connection', (socket) ->
         else
             socket.emit 'game full'
 
-        io.sockets.emit 'new player', player
+        setTimeout(
+            () ->
+                io.sockets.emit 'new player', player
+            500
+        )
 
         # Start the game when the required number of players have joined
         if game.isReady()
