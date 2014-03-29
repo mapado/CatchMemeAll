@@ -1,0 +1,164 @@
+
+@font-face {
+    font-family: 'comix_loudregular';
+    src: url('../resources/font/comix_loud-webfont.eot');
+    src: url('../resources/font/comix_loud-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../resources/font/comix_loud-webfont.woff') format('woff'),
+         url('../resources/font/comix_loud-webfont.ttf') format('truetype'),
+         url('../resources/font/comix_loud-webfont.svg#comix_loudregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+html, body {
+	margin: 0;
+	padding: 0;
+}
+
+html {
+	height: 100%;
+}
+
+body {
+	margin: 0 auto;
+	background-color: #9adced;
+	font-family: 'comix_loudregular';
+	text-transform: uppercase;
+	text-align: center;
+	font-size: 16px;
+	background: url("../resources/images/texture.png") 50% 100% no-repeat, linear-gradient(to top,#73cfdd 0,#71cfdd 50px,#3fa9b9 100%);
+}
+
+#home, #connect {
+	height: 100%;
+
+}
+
+#home {
+	background: url("../resources/images/texture.png") 50% 100% no-repeat, url("../resources/images/clouds.png") 20% 30% no-repeat, linear-gradient(to top,#73cfdd 0,#71cfdd 50px,#3fa9b9 100%);
+}
+
+a {
+	text-decoration: none;
+}
+
+h1 {
+	font-size: 24px;
+	color: white;
+	padding: 90px 0 80px 0;
+}
+
+p {
+	font-family: Helvetica, Arial, sans-serif;
+	text-transform: none;
+	font-size: 14px;
+	color: #17697e;
+}
+
+.logo {
+	display: block;
+	margin: 0 auto;
+	padding-top: 90px;
+	margin-bottom: 60px;
+}
+
+.button {
+	background: #17697e;
+	color: #fbf715;
+	border-radius: 10px; /* border radius */
+	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
+	padding: 20px 34px;	
+}
+
+.button:hover {
+	color: #fff;
+}
+
+.light-button {
+	background: #a0dee8;
+	color: #17697e;
+	border-radius: 10px; /* border radius */
+	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
+	padding: 10px 14px;
+}
+
+.light-button:hover {
+	color: #a0dee8;
+	background: #17697e;	
+}
+
+.play-button {
+	font-size: 24px;
+}
+
+.twitter-connect {
+	font-size: 14px;
+}
+
+.connect {
+	font-size: 11px;		
+}
+
+.nope {
+	display: block;
+	margin: 80px auto;
+	width: 85px;
+}
+
+#players {
+	margin-bottom: 80px;
+}
+
+
+.cloud {
+	position: relative;
+	display: inline-block;
+	padding-right: 15px;
+}
+
+.cloud:last-child {
+	padding-right: 0px;
+}
+
+.avatar {
+	position: absolute;
+	bottom: 40px;
+	left: 90px;
+	width: 48px;
+	height: 48px;
+	border-radius: 50%;
+	-moz-border-radius: 50%;
+	-webkit-border-radius: 50%;
+	border: solid 3px rgba(255, 255, 255, .5);
+
+}
+
+.username {
+	color: white;
+	padding-top: 10px;
+}
+
+.or {
+	margin-top: 30px;
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
