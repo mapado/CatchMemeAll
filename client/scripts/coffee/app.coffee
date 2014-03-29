@@ -1,5 +1,7 @@
 console.log 'hello phaser'
 
+
+#-----------------------------------------------------------
 class Coord
     constructor: (@x, @y) ->
 
@@ -52,6 +54,11 @@ class Game
             render: (-> self.render())
         )
 
+        @socket = io.connect 'http://vader.mapado.com'
+        #@socket.on('welcome',  ((data) -> console.log data))
+        #@socket.on('new player', ((data) -> console.log data))
+        #@socket.on('character spawned', ((data) -> console.log data))
+        #@socket.on('game stop', (-> console.log "GAME STOP" ))
 
     generate_fake_player: () ->
         x = y = 0
@@ -94,8 +101,8 @@ class Game
 
       #cursors = @phaser.input.keyboard.createCursorKeys()
       @balls = @phaser.add.group()
-      @balls.enableBody = true;
-      
+      @balls.enableBody = true
+
       @new_line = new Phaser.Line 0, 0, 0, 0
       @phaser.input.onDown.add(@click, this)
 
