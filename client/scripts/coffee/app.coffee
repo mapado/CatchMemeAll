@@ -37,12 +37,15 @@ class Game
 
     generate_fake_player: () ->
         x = y = 0
-        for i in [0..3]
+        for i in [0..4]
             @players.push(new Player(this, i, 0))
 
     set_players_position: () ->
+        nbr_player = @players.length
+        max_space_player = @phaser.width / (nbr_player + 1)
         for player  in @players
-            player.bucket.x =  250 * player.id
+            player.bucket.width = max_space_player - 10
+            player.bucket.x =  max_space_player + player.id * max_space_player - (max_space_player / 2)
             player.bucket.y =  @phaser.world.height - 64
 
 
