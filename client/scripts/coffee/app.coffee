@@ -5,9 +5,9 @@ class Coord
 
 class Player
     constructor: (@game, @id, @score) ->
-        ground = platforms.create (@game.phaser.world.width / @game.players.length)*id, @game.phaser.world.height - 64, 'ground'
-        ground.scale.setTo 0.3, 2
-        ground.body.immovable = true
+        @bucket = @game.plateforms.create 0, 0, 'ground'
+        @bucket.scale.setTo 0.3, 2
+        @bucket.body.immovable = true
 
 class Game
     GameStatus = 
@@ -17,42 +17,58 @@ class Game
 
     constructor: (@status, @players) ->
         # basic config
-        @window_x = 1200
-        @window_y = 680
-        @stars = null
+        @balls = null
+        @plateforms = null
         @scoreText = null
         @score = 0
         @players = []
         # Generate the word
-        @phaser = new Phaser.Game @window_x, @window_y, Phaser.AUTO, '', preload: @preload, create: @create, update: @update
-        @generate_fake_player()
-        @platforms = @phaser.add.group()
+        self = this
+        @phaser = new Phaser.Game(
+            1200,
+            680,
+            Phaser.AUTO,
+            '',
+            preload:( -> self.preload()),
+            create: ( -> self.create()),
+            update: (-> self.update())
+            )
 
 
     generate_fake_player: () ->
         x = y = 0
         for i in [0..3]
-            @players.push new Player @game, i, 0
+            @players.push(new Player(this, i, 0))
+
+    set_players_position: () ->
+        for player  in @players
+            player.bucket.x =  250 * player.id
+            player.bucket.y =  @phaser.world.height - 64
+
 
     preload: () ->
       console.log ':preload'
-      console.log this
-      this.load.image 'sky', '/assets/images/sky.png'
-      this.load.image 'ground', '/assets/images/platform.png'
-      this.load.image 'star', '/assets/images/star.png'
-      #game.load.spritesheet 'dude', '/assets/images/dude.png', 32, 48
-
+      @phaser.load.image 'sky', '/assets/images/sky.png'
+      @phaser.load.image 'ground', '/assets/images/platform.png'
+      @phaser.load.image 'star', '/assets/images/star.png'
 
     create: () ->
       console.log ':create'
       @phaser.add.sprite 0, 0, 'sky'
       @phaser.add.sprite 0, 0, 'star'
 
+      @plateforms = @phaser.add.group()
+
+      @generate_fake_player()
+
+      @set_players_position()
+      console.log @plateforms
+
       #cursors = @phaser.input.keyboard.createCursorKeys()
-      stars = @phaser.add.group()
+      @balls = @phaser.add.group()
 
       for i in [0..12]
-        star = stars.create i * 70, 0, 'star'
+        star = @balls.create i * 70, 0, 'star'
         star.body.gravity.y = 6
         star.body.bounce.y = 0.7 + Math.random() * 0.2
 
@@ -65,7 +81,7 @@ class Game
       scoreText.content = "Score: #{score}"
 
     update: () ->
-      @phaser.physics.collide stars, platforms
-      @phaser.physics.overlap stars, collectStar, null, this
+      @phaser.physics.collide @balls, @platforms
+      #@phaser.physics.overlap @balls, @collectStar, null, this
 
 game = new Game()
