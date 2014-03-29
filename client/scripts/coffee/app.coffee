@@ -4,7 +4,7 @@ class Coord
     constructor: (@x, @y) ->
 
 class Player
-    constructor: (@game, @id) ->
+    constructor: (@game, @id, @avatar) ->
         @bucket = @game.plateforms.create 0, 0, 'ground'
         @bucket.playerParent = this
         @bucket.enableBody = true
@@ -14,13 +14,19 @@ class Player
         @scoreText = null
 
     captureBall: (ball) ->
-        console.log @score
         ball.kill()
         @score += 10
         @displayScore()
 
     displayScore: () ->
         @scoreText.setText "player #{@id}: #{@score}"
+
+class Ball
+    constructor: (@balls, @coord, @score, @type) ->
+        star = @balls.create @coord, 0, 'star'
+        star.body.gravity.y = 500
+        star.body.bounce.y = 0.7
+
 
 class Game
     GameStatus =
@@ -49,16 +55,13 @@ class Game
     generate_fake_player: () ->
         x = y = 0
         for i in [0..4]
-            @players.push(new Player(this, i))
+            @players.push(new Player(this, i, null))
 
     generate_fake_balls: () ->
         for i in [0..12]
             rd = Math.random()
             if 0.95  < rd
-                star = @balls.create i * 80, 0, 'star'
-                star.body.gravity.y = 500
-                star.body.bounce.y = 0.7
-
+                new Ball(@balls, i*80, 10, 'facecat')
 
     set_players_position: () ->
         nbr_player = @players.length
@@ -82,7 +85,7 @@ class Game
       @phaser.add.sprite 0, 0, 'sky'
 
       @plateforms = @phaser.add.group()
-      @plateforms.enableBody = true;
+      @plateforms.enableBody = true
 
       @generate_fake_player()
 
@@ -90,7 +93,7 @@ class Game
 
       #cursors = @phaser.input.keyboard.createCursorKeys()
       @balls = @phaser.add.group()
-      @balls.enableBody = true;
+      @balls.enableBody = true
 
     collectBalls: (plateform, ball) ->
       plateform.playerParent.captureBall(ball)
@@ -99,7 +102,7 @@ class Game
       @phaser.physics.arcade.overlap @plateforms, @balls, @collectBalls, null, this
 
       @new_line = new Phaser.Line 64, 64, 200, 300
-      @phaser.input.onDown.add(@click, this);
+      @phaser.input.onDown.add(@click, this)
 
       #@phaser.physics.overlap @balls, @collectStar, null, this
       @generate_fake_balls()
@@ -111,8 +114,6 @@ class Game
             @dragging = false
 
     click: ->
-      console.log('click');
-
-
+      console.log 'click'
 
 game = new Game()
