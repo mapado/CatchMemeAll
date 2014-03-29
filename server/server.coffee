@@ -12,9 +12,9 @@ app.get '/', (req, res) ->
 
 # instantiate a new game
 game = new Game
-game.eventEmitter.on 'timeout', (e) ->
-    # Intercepts game timeout and stop it
-    console.log('timeout!')
+game.eventEmitter.on 'game stop', (e) ->
+    # Intercepts game 'game stop' event and broadcast it to all clients
+    io.sockets.emit 'game stop'
 
 # Handle player connection and disconnection
 # When the required number of players have joined, start the game
