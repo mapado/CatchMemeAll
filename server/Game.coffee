@@ -1,5 +1,5 @@
 require './toolbox.coffee'
-Character = require './Character.coffee'
+CharacterFhacktory = require './Character.coffee'
 EventEmitter = (require 'events').EventEmitter
 
 
@@ -39,20 +39,19 @@ class Game
                     clearInterval(interval)
                     return
 
-                character = _this.spanwCharacter()
+                character = _this.spawnCharacter()
                 setTimeout(
                     () ->
                         characterList.push character
                         _this.eventEmitter.emit('character spawned', character)
-                        console.log 'character position: ' + character.startX
                     Math.floor(Math.random() * 3000)
                 )
                 steps += 1
             timeoutStep
         )
 
-    spanwCharacter: () ->
+    spawnCharacter: () ->
         startX = Math.random()
-        return new Character(startX)
+        return (new CharacterFhacktory).newRandomCharacter(startX)
 
 module.exports = Game
