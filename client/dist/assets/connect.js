@@ -6,21 +6,40 @@ function updatePlayer(player) {
     playerDiv.find('.avatar').attr('src', player.avatar);
 }
 
+function updateTitle(playerCount) {
+    if (playerCount > 1) {
+        $('#nb-places-restantes').text(playerCount);
+    } else if (playerCount == 1){
+        $('#pagetitle').text("Il reste 1 place!");
+    } else {
+        $('#pagetitle').text("C'est parti!");
+    }
+}
+
 socket.on('welcome', function (data) {
     console.log(data);
 });
+
 socket.on('player list', function (playerList) {
+    newPlayerCount = 5 - playerList.length;
+    updateTitle(newPlayerCount);
     for (i in playerList) {
         updatePlayer(playerList[i]);
     }
 });
+
 socket.on('new player', function (player) {
+    oldPlayerCount = $('#nb-places-restantes').text();
+    newPlayerCount = oldPlayerCount - 1;
+    updateTitle(newPlayerCount);
     console.log('new player', player);
     updatePlayer(player);
 });
+
 socket.on('character spawned', function (data) {
     console.log(data);
 });
+
 socket.on('player updated', function (player) {
     console.log('player updated', player);
     updatePlayer(player);
