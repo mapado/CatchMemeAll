@@ -38,7 +38,6 @@ socket.on('player list', function (playerList) {
 });
 
 socket.on('new player', function (player) {
-    console.log($('#nb-places-restantes').text());
     oldPlayerCount = $('#nb-places-restantes').text();
     newPlayerCount = oldPlayerCount - 1;
     updateTitle(newPlayerCount);
@@ -66,8 +65,6 @@ socket.on('game stop', function () {
 });
 
 $(function() {
-    $('#username-content').hide();
-
     $('.twitter-connect, .connect').on('click', function () {
         if ($(this).hasClass('twitter-connect')) {
             $('#isTwitter').val('1');

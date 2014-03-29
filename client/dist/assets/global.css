@@ -136,6 +136,10 @@ p {
 
 }
 
+#username-content {
+    display: none;
+}
+
 .username {
 	color: white;
 	padding-top: 10px;
