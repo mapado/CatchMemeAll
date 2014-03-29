@@ -1,4 +1,3 @@
-#require 'coffee-script/register'
 Player = require './Player.coffee'
 Game = require './Game.coffee'
 app = (require 'express')()
@@ -27,17 +26,16 @@ io.sockets.on 'connection', (socket) ->
     else
         socket.emit 'game full'
 
+    # Start the game when the required number of players have joined
     if game.isReady()
         console.log('start')
         game.start()
 
+    # Send joining information to all players
     socket.emit 'welcome', player.id
     io.sockets.emit 'new Player', player.id
 
-
-    #socket.on 'my other event', (data) ->
-    #    console.log(data)
-
+    # Handle disconnection
     socket.on 'disconnect', () ->
         player.sayGoodbye()
         game.removePlayer(player)
