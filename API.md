@@ -40,14 +40,17 @@ is triggered when the score of a user changes
 is triggered when a new character appear on screen
 
 ```
-'wall added', (int ax, int ay, int bx, int by)
+'wall added', (Player player, int ax, int ay, int cx, int cy)
 ```
 is triggered when a user adds a wall
 
 ```
-'wall removed', (int ax, int ay, int bx, int by)
+'wall removed', (Player player, int ax, int ay, int cx, int cy)
 ```
 is triggered when a user removes a wall
+
+```player updated, (Player player)```
+The player is updated (name or avatar)
 
 
 ## Client events
@@ -57,17 +60,22 @@ is triggered when a user removes a wall
 is triggered when a user logs in (automatic)
 
 ```
+logged in (string name, bool isTwitter)
+```
+the user logs into the server
+
+
 'update score', (int newScore)
 ```
 is triggered by the player with his new total score
 
 ```
-'add wall', (int ax, int ay, int bx, int by)
+'add wall', (int ax, int ay, int cx, int cy)
 ```
 is triggered by the player when he adds a wall
 
 ```
-'remove wall', (int ax, int ay, int bx, int by)
+'remove wall', (int ax, int ay, int cx, int cy)
 ```
 is triggered by the player when he removes a wall
 
