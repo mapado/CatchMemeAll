@@ -17,7 +17,9 @@ game = new Game
 
 # Intercepts game 'game stop' event and broadcast it to all clients
 game.eventEmitter.on 'game stop', (e) ->
-    io.sockets.emit 'game stop'
+    winners = game.getWinners()
+    console.log winners
+    io.sockets.emit('game stop', winners)
 
 # Send the position of a newly spawed character to all clients
 game.eventEmitter.on 'character spawned', (character) ->

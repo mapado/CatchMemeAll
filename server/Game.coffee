@@ -54,4 +54,15 @@ class Game
         startX = Math.random()
         return (new CharacterFhacktory).newRandomCharacter(startX)
 
+    getWinners: () ->
+        max = 0
+        winners = []
+        for player in @playerList
+            if player.score == max
+                winners.push player
+            else if player.score > max
+                winners = []
+                winners.push player
+        return winners
+
 module.exports = Game
