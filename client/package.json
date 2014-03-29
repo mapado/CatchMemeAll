@@ -1,9 +1,8 @@
 {
-  "name": "gulpjs-phaser",
+  "name": "SaveTheInternet",
   "author": {
-    "name": "Dotan Nahum",
-    "email": "jondotan@gmail.com",
-    "url": "http://github.com/jondot/gulpjs-phaser"
+    "name": "Mapado Team",
+    "email": "devteam@mapado.com",
   },
   "version": "0.0.1",
   "description": "",
