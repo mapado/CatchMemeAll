@@ -8,7 +8,7 @@ io = (require 'socket.io').listen server
 server.listen 4243
 
 # Serve  the client code
-app.use('/assets', express.static(__dirname + '/client/assets'))
+app.use('/assets', express.static(__dirname + '/client/dist/assets'))
 app.get '/', (req, res) ->
     res.sendfile(__dirname + '/client/index.html')
 
