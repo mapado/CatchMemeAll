@@ -1,41 +1,51 @@
-require './toolbox.js'
+Player = require './Player.coffee'
+Game = require './Game.coffee'
 app = (require 'express')()
 server = (require 'http').createServer app
-
 io = (require 'socket.io').listen server
 
 server.listen 4242
 
-
-
-class User
-    constructor: (@id)->
-
-    sayHello: ->
-        console.log 'Hello from ' + @id
-
-    sayGoodbye: ->
-        console.log 'Goodbye from ' + @id
-
+# Serve  the client code
 app.get '/', (req, res) ->
     res.sendfile(__dirname + '/index.html')
 
-clients = []
+# instantiate a new game
+game = new Game
 
+# Intercepts game 'game stop' event and broadcast it to all clients
+game.eventEmitter.on 'game stop', (e) ->
+    io.sockets.emit 'game stop'
+
+# Send the position of a newly spawed character to all clients
+game.eventEmitter.on 'character spawned', (character) ->
+    io.sockets.emit('character spawned', character)
+
+# Handle player connection and disconnection
+# When the required number of players have joined, start the game
 io.sockets.on 'connection', (socket) ->
-    user = new User(socket.id)
-    user.sayHello()
-    clients.push user
+    player = new Player(socket.id)
 
+    if game.acceptsPlayer()
+        game.addPlayer(player)
+    else
+        socket.emit 'game full'
 
-    socket.emit 'welcome', user.id
+    # Start the game when the required number of players have joined
+    if game.isReady()
+        io.sockets.emit 'game start'
+        game.start()
 
-    io.sockets.emit 'new user', user.id
+    # Send joining information to all players
+    socket.emit 'welcome', player
+    io.sockets.emit 'new player', player
 
-
-    #socket.on 'my other event', (data) ->
-    #    console.log(data)
-
+    # Handle disconnection
     socket.on 'disconnect', () ->
-        user.sayGoodbye()
-        clients.remove user
+        player.sayGoodbye()
+        game.removePlayer(player)
+
+    # Update the player score and broadcast its new score to all clients
+    socket.on 'update score', (score) ->
+        player.score = score
+        io.sockets.emit('score updated', player)
