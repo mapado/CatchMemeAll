@@ -35,7 +35,7 @@ class Game
         interval = setInterval(
             () ->
                 if steps > Game.MAX_GAME_TIME / timeoutStep
-                    _this.eventEmitter.emit('game stop')
+                    _this.eventEmitter.emit 'game stop'
                     clearInterval(interval)
                     return
 
@@ -43,6 +43,7 @@ class Game
                 setTimeout(
                     () ->
                         characterList.push character
+                        _this.eventEmitter.emit('character spawned', character)
                         console.log 'character position: ' + character.startX
                     Math.floor(Math.random() * 3000)
                 )
