@@ -1,14 +1,16 @@
-Player = require './Player.coffee'
-Game = require './Game.coffee'
-app = (require 'express')()
+Player = require './server/Player.coffee'
+Game = require './server/Game.coffee'
+express = require 'express'
+app = express()
 server = (require 'http').createServer app
 io = (require 'socket.io').listen server
 
-server.listen 4242
+server.listen 4243
 
 # Serve  the client code
+app.use('/assets', express.static(__dirname + '/client/assets'))
 app.get '/', (req, res) ->
-    res.sendfile(__dirname + '/index.html')
+    res.sendfile(__dirname + '/client/index.html')
 
 # instantiate a new game
 game = new Game
