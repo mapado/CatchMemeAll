@@ -4,13 +4,26 @@ class Coord
     constructor: (@x, @y) ->
 
 class Player
-    constructor: (@game, @id, @score) ->
+    constructor: (@game, @id) ->
         @bucket = @game.plateforms.create 0, 0, 'ground'
+        @bucket.playerParent = this
         @bucket.scale.setTo 0.3, 2
         @bucket.body.immovable = true
+        @score = 0
+        @scoreText = null
+
+    captureBall: (ball) ->
+        #console.log @score
+        ball.kill()
+        @score += 10
+        @displayScore()
+
+    displayScore: () ->
+        @scoreText.content = "player #{@id}: #{@score}"
+
 
 class Game
-    GameStatus = 
+    GameStatus =
         INIT : 1
         RUNNING : 2
         SCORE : 3
@@ -19,8 +32,6 @@ class Game
         # basic config
         @balls = null
         @plateforms = null
-        @scoreText = null
-        @score = 0
         @players = []
         # Generate the word
         self = this
@@ -38,15 +49,18 @@ class Game
     generate_fake_player: () ->
         x = y = 0
         for i in [0..4]
-            @players.push(new Player(this, i, 0))
+            @players.push(new Player(this, i))
 
     set_players_position: () ->
         nbr_player = @players.length
         max_space_player = @phaser.width / (nbr_player + 1)
         for player  in @players
             player.bucket.width = max_space_player - 10
+            pointer = max_space_player + player.id * max_space_player - (max_space_player / 2)
             player.bucket.x =  max_space_player + player.id * max_space_player - (max_space_player / 2)
             player.bucket.y =  @phaser.world.height - 64
+
+            player.scoreText = @phaser.add.text pointer, 16, 'score: 0', font: '32px arial', fill: '#000'
 
 
     preload: () ->
@@ -58,7 +72,6 @@ class Game
     create: () ->
       console.log ':create'
       @phaser.add.sprite 0, 0, 'sky'
-      @phaser.add.sprite 0, 0, 'star'
 
       @plateforms = @phaser.add.group()
 
@@ -72,21 +85,16 @@ class Game
       for i in [0..12]
         star = @balls.create i * 70, 0, 'star'
         star.body.gravity.y = 6
-        star.body.bounce.y = 0.7 + Math.random() * 0.2
-
-      console.log @plateforms.countLiving()
-      console.log @balls.countLiving()
-
-      scoreText = @phaser.add.text 16, 16, 'score: 0', font: '32px arial', fill: '#000'
+        star.body.bounce.y = 0.7 #+ Math.random() * 0.2
 
 
-    collectStar: (player, star) ->
-      star.kill()
-      score += 10
-      scoreText.content = "Score: #{score}"
+
+    collectBalls: (plateform, ball) ->
+      plateform.playerParent.captureBall(ball)
 
     update: () ->
-      @phaser.physics.collide @balls, @plateforms
+      @phaser.physics.overlap @plateforms, @balls, @collectBalls, null, this
+      #@phaser.physics.collide @balls, @plateforms
       #@phaser.physics.overlap @balls, @collectStar, null, this
 
 game = new Game()
