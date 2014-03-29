@@ -70,3 +70,17 @@ is triggered by the player when he adds a wall
 'remove wall', (int ax, int ay, int bx, int by)
 ```
 is triggered by the player when he removes a wall
+
+
+## Object definition
+### Player
+* id
+* name
+* avatar
+
+
+### Character
+* name
+* score
+* startX
+
