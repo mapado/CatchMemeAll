@@ -14,7 +14,6 @@ class Player
         @scoreText = null
 
     captureBall: (ball) ->
-        console.log @score
         ball.kill()
         @score += 10
         @displayScore()
@@ -42,7 +41,8 @@ class Game
             '',
             preload:( -> self.preload()),
             create: ( -> self.create()),
-            update: (-> self.update())
+            update: (-> self.update()),
+            render: (-> self.render())
         )
 
 
@@ -91,27 +91,36 @@ class Game
       #cursors = @phaser.input.keyboard.createCursorKeys()
       @balls = @phaser.add.group()
       @balls.enableBody = true;
+      
+      @new_line = new Phaser.Line 64, 64, 200, 300
 
     collectBalls: (plateform, ball) ->
       plateform.playerParent.captureBall(ball)
 
     update: () ->
       @phaser.physics.arcade.overlap @plateforms, @balls, @collectBalls, null, this
+      @phaser.physics.arcade.collide @balls, @new_line
 
-      @new_line = new Phaser.Line 64, 64, 200, 300
       @phaser.input.onDown.add(@click, this);
 
-      #@phaser.physics.overlap @balls, @collectStar, null, this
       @generate_fake_balls()
 
       if @dragging
           if @phaser.input.activePointer.isDown
-            @new_line.end.set(@phaser.input.activePointer.x, @phaser.input.activePointer.y)
+            @new_line.end.set @phaser.input.activePointer.x, @phaser.input.activePointer.y
+
           else
             @dragging = false
+            console.log 'push line !'
 
-    click: ->
-      console.log('click');
+    render: () ->
+      @phaser.debug.geom(@new_line);
+      @phaser.debug.rectangle(@new_line);
+
+
+    click: (pointer) ->
+      @dragging = true
+      @new_line.start.set pointer.x, pointer.y
 
 
 
