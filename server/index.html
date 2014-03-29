@@ -4,7 +4,13 @@
   socket.on('welcome', function (data) {
     console.log(data);
   });
-  socket.on('new user', function (data) {
+  socket.on('new player', function (data) {
     console.log(data);
+  });
+  socket.on('character spawned', function (data) {
+    console.log(data);
+  });
+  socket.on('game stop', function () {
+    console.log("GAME STOP");
   });
 </script>
