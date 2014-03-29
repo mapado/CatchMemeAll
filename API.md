@@ -49,6 +49,9 @@ is triggered when a user adds a wall
 ```
 is triggered when a user removes a wall
 
+```player updated, (Player player)```
+The player is updated (name or avatar)
+
 
 ## Client events
 ```
@@ -57,6 +60,11 @@ is triggered when a user removes a wall
 is triggered when a user logs in (automatic)
 
 ```
+logged in (string name, bool isTwitter)
+```
+the user logs into the server
+
+
 'update score', (int newScore)
 ```
 is triggered by the player with his new total score
