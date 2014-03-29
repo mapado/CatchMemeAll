@@ -10,7 +10,9 @@ function updateTitle(playerCount) {
     if (playerCount > 1) {
         $('#nb-places-restantes').text(playerCount);
     } else if (playerCount == 1){
-        $('#pagetitle').text("Il reste 1 place!");
+        $('#pagetitle').html("Il reste <span id=\"nb-places-restantes\">1</span> place!");
+    } else if (playerCount == -1){
+        $('#pagetitle').text("Desole, le jeu est complet !");
     } else {
         $('#pagetitle').text("C'est parti!");
     }
@@ -22,13 +24,21 @@ socket.on('welcome', function (data) {
 
 socket.on('player list', function (playerList) {
     newPlayerCount = 5 - playerList.length;
-    updateTitle(newPlayerCount);
+    if (newPlayerCount == 0) {
+        updateTitle(-1);
+        $('#username-content').hide();
+        $('#login-select').hide();
+    } else {
+        updateTitle(newPlayerCount);
+    }
+
     for (i in playerList) {
         updatePlayer(playerList[i]);
     }
 });
 
 socket.on('new player', function (player) {
+    console.log($('#nb-places-restantes').text());
     oldPlayerCount = $('#nb-places-restantes').text();
     newPlayerCount = oldPlayerCount - 1;
     updateTitle(newPlayerCount);
@@ -45,6 +55,11 @@ socket.on('player updated', function (player) {
     updatePlayer(player);
 });
 
+socket.on('game full', function () {
+    updateTitle(-1);
+    $('#username-content').hide();
+    $('#login-select').hide();
+});
 
 socket.on('game stop', function () {
     console.log("GAME STOP");
@@ -67,7 +82,6 @@ $(function() {
 
     $('#username-content').on('submit', function () {
         // lets connect to the user
-        console.log($('#isTwitter').val() == '1');
         socket.emit(
             'logged in',
             {
@@ -75,6 +89,8 @@ $(function() {
                 'isTwitter': $('#isTwitter').val() == '1'
             }
         )
+
+        $('#username-content').hide();
 
         return false;
     });
