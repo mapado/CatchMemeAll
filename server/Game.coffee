@@ -11,6 +11,7 @@ class Game
     constructor: ()->
         @playerList = []
         @eventEmitter = new EventEmitter()
+        @characterFhacktory = new CharacterFhacktory()
 
     addPlayer: (player) ->
         @playerList.push player
@@ -52,7 +53,7 @@ class Game
 
     spawnCharacter: () ->
         startX = Math.random()
-        return (new CharacterFhacktory).newRandomCharacter(startX)
+        return this.characterFhacktory.newRandomCharacter(startX)
 
     getWinners: () ->
         max = 0
