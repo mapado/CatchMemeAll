@@ -40,12 +40,12 @@ is triggered when the score of a user changes
 is triggered when a new character appear on screen
 
 ```
-'wall added', (int ax, int ay, int bx, int by)
+'wall added', (Player player, int ax, int ay, int bx, int by)
 ```
 is triggered when a user adds a wall
 
 ```
-'wall removed', (int ax, int ay, int bx, int by)
+'wall removed', (Player player, int ax, int ay, int bx, int by)
 ```
 is triggered when a user removes a wall
 
