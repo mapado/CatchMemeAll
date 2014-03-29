@@ -1,11 +1,11 @@
-Save The Internet
+Catch Meme All
 ===========
 Save the internet by rescuing all the endangered meme characters!
 
 ## Server
 ### Installation
 ```bash
-$ git clone https://github.com:fhactory/SaveTheInternet.git
+$ git clone https://github.com:fhactory/CatchMemeAll.git
 $ npm install -g coffee-script
 $ npm install -g node-dev
 $ cd SaveTheInternet/server/
