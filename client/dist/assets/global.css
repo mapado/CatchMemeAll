@@ -1,11 +1,11 @@
 
 @font-face {
     font-family: 'comix_loudregular';
-    src: url('../resources/font/comix_loud-webfont.eot');
-    src: url('../resources/font/comix_loud-webfont.eot?#iefix') format('embedded-opentype'),
-         url('../resources/font/comix_loud-webfont.woff') format('woff'),
-         url('../resources/font/comix_loud-webfont.ttf') format('truetype'),
-         url('../resources/font/comix_loud-webfont.svg#comix_loudregular') format('svg');
+    src: url('font/comix_loud-webfont.eot');
+    src: url('font/comix_loud-webfont.eot?#iefix') format('embedded-opentype'),
+         url('font/comix_loud-webfont.woff') format('woff'),
+         url('font/comix_loud-webfont.ttf') format('truetype'),
+         url('font/comix_loud-webfont.svg#comix_loudregular') format('svg');
     font-weight: normal;
     font-style: normal;
 
@@ -27,7 +27,7 @@ body {
 	text-transform: uppercase;
 	text-align: center;
 	font-size: 16px;
-	background: url("../resources/images/texture.png") 50% 100% no-repeat, linear-gradient(to top,#73cfdd 0,#71cfdd 50px,#3fa9b9 100%);
+	background: url("images/texture.png") 50% 100% no-repeat, linear-gradient(to top,#73cfdd 0,#71cfdd 50px,#3fa9b9 100%);
 }
 
 #home, #connect {
@@ -36,7 +36,7 @@ body {
 }
 
 #home {
-	background: url("../resources/images/texture.png") 50% 100% no-repeat, url("../resources/images/clouds.png") 20% 30% no-repeat, linear-gradient(to top,#73cfdd 0,#71cfdd 50px,#3fa9b9 100%);
+	background: url("images/texture.png") 50% 100% no-repeat, url("images/clouds.png") 20% 30% no-repeat, linear-gradient(to top,#73cfdd 0,#71cfdd 50px,#3fa9b9 100%);
 }
 
 a {
