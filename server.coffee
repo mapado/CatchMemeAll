@@ -35,7 +35,6 @@ io.sockets.on 'connection', (socket) ->
     player.sayHello()
     socket.emit 'welcome', player
     socket.emit 'player list', game.playerList
-    io.sockets.emit 'new player', player
 
     # Handle disconnection
     socket.on 'disconnect', () ->
@@ -66,7 +65,7 @@ io.sockets.on 'connection', (socket) ->
         else
             socket.emit 'game full'
 
-        io.sockets.emit('player updated', player)
+        io.sockets.emit 'new player', player
 
         # Start the game when the required number of players have joined
         if game.isReady()
