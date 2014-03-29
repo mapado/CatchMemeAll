@@ -86,6 +86,7 @@ class Game
       console.log ':preload'
       @phaser.load.image 'sky', '/assets/images/sky.png'
       @phaser.load.image 'ground', '/assets/images/platform.png'
+      @phaser.load.image 'circle', '/assets/images/circle.png'
       @phaser.load.image 'star', '/assets/images/star.png'
       @phaser.load.image 'wall', '/assets/images/star.png'
 
@@ -118,53 +119,21 @@ class Game
     collectBalls: (plateform, ball) ->
       plateform.playerParent.captureBall(ball)
 
-    buildWall: (wall) ->
-        console.log wall
-        dist_y = Math.abs(wall.y1 - wall.y2)
-        dist_x = Math.abs(wall.x1 - wall.x2)
-        wall_length = Math.sqrt(dist_y * dist_y + dist_x * dist_x)
-        angle = Math.atan2( dist_y,  dist_x) * (180/3.14)
-        if (wall.y1 - wall.y2 > 0)
-            angle = - angle
-
-        wall_sprite = @walls.create  wall.x1, wall.y1, 'ground'
-        wall_sprite.width = wall_length
-        wall_sprite.height = 20
-        wall_sprite.angle = angle
+    buildCircle: (wall) ->
+        wall_sprite = @walls.create  wall.x, wall.y, 'circle'
         @phaser.physics.p2.enable(wall_sprite, false)
-        #debugger
-        wall_sprite.body.fixedRotation = true
-        wall_sprite.body.mass = 0
         wall_sprite.body.data.motionState = p2.Body.STATIC
-
         wall_sprite.body.data.gravityScale = 0
-        #wall_prite.body.immovable = true
-        console.log wall_sprite
 
     update: () ->
-      #@phaser.physics.arcade.overlap @plateforms, @balls, @collectBalls, null, this
-      #@phaser.physics.arcade.collide @balls, @walls
-
       @generate_fake_balls()
 
       if @dragging
-          if @phaser.input.activePointer.isDown
-            @new_line.end.set @phaser.input.activePointer.x, @phaser.input.activePointer.y
-
-          else
-            @dragging = false
-            @buildWall({
-                'x1': @new_line.start.x,
-                'y1': @new_line.start.y,
-                'x2': @new_line.end.x,
-                'y2': @new_line.end.y
-            })
             console.log 'push line !'
 
     render: () ->
 
     click: (pointer) ->
-      @dragging = true
-      @new_line.start.set pointer.x, pointer.y
+        @buildCircle(pointer)
 
 game = new Game()
