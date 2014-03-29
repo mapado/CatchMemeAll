@@ -4,6 +4,7 @@ class Character
 
 
 class Trollface extends Character
+    @PROBABILITY = 10
     constructor: (@startX)->
         super(@startX)
         @name = "Trollface"
@@ -11,6 +12,7 @@ class Trollface extends Character
 
 
 class Cat extends Character
+    @PROBABILITY = 5
     constructor: (@startX)->
         super(@startX)
         @name = "Cat"
@@ -18,6 +20,7 @@ class Cat extends Character
 
 
 class NyanCat extends Character
+    @PROBABILITY = 3
     constructor: (@startX)->
         super(@startX)
         @name = "NyanCat"
@@ -25,6 +28,7 @@ class NyanCat extends Character
 
 
 class Unicorn extends Character
+    @PROBABILITY = 1
     constructor: (@startX)->
         super(@startX)
         @name = "Unicorn"
@@ -32,6 +36,7 @@ class Unicorn extends Character
 
 
 class Facebook extends Character
+    @PROBABILITY = 2
     constructor: (@startX)->
         super(@startX)
         @name = "Facebook"
@@ -48,15 +53,32 @@ class CharacterFhacktory
         "Facebook": Facebook,
     }
 
+    getWeightedMapping: ->
+        if (this.weightedMapping == undefined)
+            console.log 'Generating characters wheigted mapping'
+            keys = Object.keys(CharacterFhacktory.MAPPING)
+            this.weightedMapping = []
+
+            for name in keys
+                _cls = CharacterFhacktory.MAPPING[name]
+                _cls.PROBABILITY
+                this.weightedMapping.push(name) for j in  [1.._cls.PROBABILITY]
+
+        return this.weightedMapping
+
     newRandomCharacter: (startX) ->
-        keys = Object.keys(CharacterFhacktory.MAPPING)
-        idx = Math.floor(Math.random() * keys.length)
-        name = keys[idx]
-        return this.newCharacter(name, startX)
+        names = this.getWeightedMapping()
+        idx = Math.floor(Math.random() * names.length)
+        name = names[idx]
+
+        newChar = this.newCharacter(name, startX)
+        console.log 'New charactere created: ' + newChar.name
+        return newChar
 
     newCharacter: (name, startX) ->
         _cls = CharacterFhacktory.MAPPING[name]
         x = new _cls(startX)
+
         return new _cls(startX)
 
 
