@@ -62,7 +62,6 @@ class Game
       @generate_fake_player()
 
       @set_players_position()
-      console.log @plateforms
 
       #cursors = @phaser.input.keyboard.createCursorKeys()
       @balls = @phaser.add.group()
@@ -71,6 +70,9 @@ class Game
         star = @balls.create i * 70, 0, 'star'
         star.body.gravity.y = 6
         star.body.bounce.y = 0.7 + Math.random() * 0.2
+
+      console.log @plateforms.countLiving()
+      console.log @balls.countLiving()
 
       scoreText = @phaser.add.text 16, 16, 'score: 0', font: '32px arial', fill: '#000'
 
@@ -81,7 +83,7 @@ class Game
       scoreText.content = "Score: #{score}"
 
     update: () ->
-      @phaser.physics.collide @balls, @platforms
+      @phaser.physics.collide @balls, @plateforms
       #@phaser.physics.overlap @balls, @collectStar, null, this
 
 game = new Game()
