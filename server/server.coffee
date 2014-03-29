@@ -1,5 +1,5 @@
 #require 'coffee-script/register'
-User = require './User.coffee'
+Player = require './Player.coffee'
 Game = require './Game.coffee'
 app = (require 'express')()
 server = (require 'http').createServer app
@@ -16,10 +16,10 @@ app.get '/', (req, res) ->
 game = new Game
 
 io.sockets.on 'connection', (socket) ->
-    user = new User(socket.id)
+    player = new Player(socket.id)
 
     if game.acceptsPlayer()
-        game.addPlayer(user)
+        game.addPlayer(player)
     else
         socket.emit 'game full'
 
@@ -27,13 +27,13 @@ io.sockets.on 'connection', (socket) ->
         console.log('start')
         game.start()
 
-    socket.emit 'welcome', user.id
-    io.sockets.emit 'new user', user.id
+    socket.emit 'welcome', player.id
+    io.sockets.emit 'new Player', player.id
 
 
     #socket.on 'my other event', (data) ->
     #    console.log(data)
 
     socket.on 'disconnect', () ->
-        user.sayGoodbye()
-        game.removePlayer(user)
+        player.sayGoodbye()
+        game.removePlayer(player)

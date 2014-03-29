@@ -1,4 +1,4 @@
-class User
+class Player
     constructor: (@id)->
 
     sayHello: ->
@@ -7,4 +7,4 @@ class User
     sayGoodbye: ->
         console.log 'Goodbye from ' + @id
 
-module.exports = User
+module.exports = Player
