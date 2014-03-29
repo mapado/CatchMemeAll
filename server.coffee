@@ -16,10 +16,10 @@ app.get '/', (req, res) ->
 # instantiate a new game
 game = new Game
 
-# Intercepts game 'game stop' event and broadcast it to all clients
+# Intercepts game 'game stop' event and broadcast it to all clients,
+# with the identity of the winner(s)
 game.eventEmitter.on 'game stop', (e) ->
     winners = game.getWinners()
-    console.log winners
     io.sockets.emit('game stop', winners)
 
 # Send the position of a newly spawed character to all clients
