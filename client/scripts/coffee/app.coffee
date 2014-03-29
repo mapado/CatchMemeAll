@@ -114,7 +114,7 @@ class Game
       @phaser.physics.arcade.overlap @plateforms, @balls, @collectBalls, null, this
       @phaser.physics.arcade.collide @balls, @new_line
 
-      @generate_fake_balls()
+      #@generate_fake_balls()
 
       if @dragging
           if @phaser.input.activePointer.isDown
