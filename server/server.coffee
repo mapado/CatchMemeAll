@@ -16,6 +16,7 @@ game.eventEmitter.on 'game stop', (e) ->
     # Intercepts game 'game stop' event and broadcast it to all clients
     io.sockets.emit 'game stop'
 
+
 # Handle player connection and disconnection
 # When the required number of players have joined, start the game
 io.sockets.on 'connection', (socket) ->
@@ -39,3 +40,8 @@ io.sockets.on 'connection', (socket) ->
     socket.on 'disconnect', () ->
         player.sayGoodbye()
         game.removePlayer(player)
+
+    # Update the player score and broadcast its new score to all clients
+    socket.on 'update score', (score) ->
+        player.score = score
+        io.sockets.emit('score updated', player)
