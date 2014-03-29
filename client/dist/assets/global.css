@@ -129,15 +129,20 @@ p {
 	left: 90px;
 	width: 48px;
 	height: 48px;
+	border: solid 3px rgba(255, 255, 255, .5);
 	border-radius: 50%;
 	-moz-border-radius: 50%;
 	-webkit-border-radius: 50%;
-	border: solid 3px rgba(255, 255, 255, .5);
-
-    opacity: 0;
 }
 
-.avatar.present {
+.avatar img {
+    opacity: 0;
+	border-radius: 50%;
+	-moz-border-radius: 50%;
+	-webkit-border-radius: 50%;
+}
+
+.avatar img.present {
     transition: opacity 1s linear;
     -webkit-transition: 1s linear;
     opacity: 1;

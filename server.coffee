@@ -11,6 +11,9 @@ server.listen 4242
 # Serve  the client code
 app.use('/assets', express.static(__dirname + '/client/dist/assets'))
 app.get '/', (req, res) ->
+    res.sendfile(__dirname + '/client/home.html')
+
+app.get '/play', (req, res) ->
     res.sendfile(__dirname + '/client/connect.html')
 
 # instantiate a new game

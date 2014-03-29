@@ -3,7 +3,7 @@ var socket = io.connect('http://vader.mapado.com');
 function updatePlayer(player) {
     var playerDiv = $('#players .cloud:nth-child(' + player.position + ')');
     playerDiv.find('.username').text(player.name);
-    playerDiv.find('.avatar')
+    playerDiv.find('.avatar img')
         .addClass('present')
         .attr('src', player.avatar);
 }
