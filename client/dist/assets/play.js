@@ -1,11 +1,21 @@
 var socket = io.connect('http://vader.mapado.com');
 
 function updatePlayer(player) {
-    var playerDiv = $('#players .cloud:nth-child(' + player.position + ')');
-    playerDiv.find('.username').text(player.name);
+    if (typeof player === "number") {
+        var position = player;
+        var name = '&nbsp;';
+        var avatar = '';
+    } else {
+        var position = player.position;
+        var name = player.name;
+        var avatar = player.avatar;
+    }
+
+    var playerDiv = $('#players .cloud:nth-child(' + position + ')');
+    playerDiv.find('.username').html(name);
     playerDiv.find('.avatar img')
         .addClass('present')
-        .attr('src', player.avatar);
+        .attr('src', avatar);
 }
 
 function updateTitle(playerCount) {
@@ -34,8 +44,15 @@ socket.on('player list', function (playerList) {
         updateTitle(newPlayerCount);
     }
 
+    var nbPlayer = 1;
     for (i in playerList) {
         updatePlayer(playerList[i]);
+        nbPlayer++;
+    }
+
+    while (nbPlayer < 5) {
+        updatePlayer(nbPlayer);
+        nbPlayer++;
     }
 });
 
@@ -43,7 +60,6 @@ socket.on('new player', function (player) {
     oldPlayerCount = $('#nb-places-restantes').text();
     newPlayerCount = oldPlayerCount - 1;
     updateTitle(newPlayerCount);
-    console.log('new player', player);
     updatePlayer(player);
 });
 
@@ -76,6 +92,7 @@ socket.on('game stop', function (playerList) {
     setPodium($('#losers .cloud:nth-child(2)'), playerList[4]);
 
     $('#connect').hide();
+    $('#game').hide();
     $('#podium').show();
     $('#the-end').addClass('active');
     setTimeout(function () {

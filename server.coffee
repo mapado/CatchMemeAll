@@ -6,7 +6,7 @@ http = require 'http'
 server = http.createServer app
 io = (require 'socket.io').listen server
 
-server.listen 4241
+server.listen 4242
 
 # Serve  the client code
 app.use('/assets', express.static(__dirname + '/client/dist/assets'))
@@ -23,6 +23,7 @@ game = new Game
 # with the identity of the winner(s)
 game.eventEmitter.on 'game stop', (e) ->
     winners = game.getWinners()
+    game = new Game
     io.sockets.emit('game stop', winners)
 
 # Send the position of a newly spawed character to all clients
@@ -42,6 +43,7 @@ io.sockets.on 'connection', (socket) ->
     # Handle disconnection
     socket.on 'disconnect', () ->
         game.removePlayer(player)
+        io.sockets.emit 'player list', game.playerList
 
     # fetch the player's avatar given its username
     socket.on 'logged in', (data) ->
