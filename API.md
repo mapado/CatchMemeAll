@@ -27,7 +27,7 @@ is triggered when the game starts
 ```
 'game stop'
 ```
-is triggered when the game is finished
+is triggered when the game is finished, broadcasting the player object(s) of the winner(s)
 
 ```
 'score updated', (Player player)

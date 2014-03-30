@@ -4,15 +4,17 @@ EventEmitter = (require 'events').EventEmitter
 
 
 class Game
-    @MAX_PLAYERS: 2 # 5
+    @MAX_PLAYERS: 5 # 5
     @NB_CHARACTERS_PER_PLAYER: 5 # 20
     @MAX_GAME_TIME = 5000
 
     constructor: ()->
         @playerList = []
         @eventEmitter = new EventEmitter()
+        @characterFhacktory = new CharacterFhacktory()
 
     addPlayer: (player) ->
+        player.position = @playerList.length + 1
         @playerList.push player
 
     removePlayer: (player) ->
@@ -52,6 +54,17 @@ class Game
 
     spawnCharacter: () ->
         startX = Math.random()
-        return (new CharacterFhacktory).newRandomCharacter(startX)
+        return this.characterFhacktory.newRandomCharacter(startX)
+
+    getWinners: () ->
+        max = 0
+        winners = []
+        for player in @playerList
+            if player.score == max
+                winners.push player
+            else if player.score > max
+                winners = []
+                winners.push player
+        return winners
 
 module.exports = Game

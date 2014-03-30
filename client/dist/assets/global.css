@@ -1,11 +1,11 @@
 
 @font-face {
     font-family: 'comix_loudregular';
-    src: url('../resources/font/comix_loud-webfont.eot');
-    src: url('../resources/font/comix_loud-webfont.eot?#iefix') format('embedded-opentype'),
-         url('../resources/font/comix_loud-webfont.woff') format('woff'),
-         url('../resources/font/comix_loud-webfont.ttf') format('truetype'),
-         url('../resources/font/comix_loud-webfont.svg#comix_loudregular') format('svg');
+    src: url('font/comix_loud-webfont.eot');
+    src: url('font/comix_loud-webfont.eot?#iefix') format('embedded-opentype'),
+         url('font/comix_loud-webfont.woff') format('woff'),
+         url('font/comix_loud-webfont.ttf') format('truetype'),
+         url('font/comix_loud-webfont.svg#comix_loudregular') format('svg');
     font-weight: normal;
     font-style: normal;
 
@@ -27,7 +27,7 @@ body {
 	text-transform: uppercase;
 	text-align: center;
 	font-size: 16px;
-	background: url("../resources/images/texture.png") 50% 100% no-repeat, linear-gradient(to top,#73cfdd 0,#71cfdd 50px,#3fa9b9 100%);
+	background: url("images/texture.png") 50% 100% no-repeat, linear-gradient(to top,#73cfdd 0,#71cfdd 50px,#3fa9b9 100%);
 }
 
 #home, #connect {
@@ -36,7 +36,7 @@ body {
 }
 
 #home {
-	background: url("../resources/images/texture.png") 50% 100% no-repeat, url("../resources/images/clouds.png") 20% 30% no-repeat, linear-gradient(to top,#73cfdd 0,#71cfdd 50px,#3fa9b9 100%);
+	background: url("images/texture.png") 50% 100% no-repeat, url("images/clouds.png") 20% 30% no-repeat, linear-gradient(to top,#73cfdd 0,#71cfdd 50px,#3fa9b9 100%);
 }
 
 a {
@@ -69,7 +69,7 @@ p {
 	border-radius: 10px; /* border radius */
 	-moz-border-radius: 10px;
 	-webkit-border-radius: 10px;
-	padding: 20px 34px;	
+	padding: 20px 34px;
 }
 
 .button:hover {
@@ -87,7 +87,7 @@ p {
 
 .light-button:hover {
 	color: #a0dee8;
-	background: #17697e;	
+	background: #17697e;
 }
 
 .play-button {
@@ -99,7 +99,7 @@ p {
 }
 
 .connect {
-	font-size: 11px;		
+	font-size: 11px;
 }
 
 .nope {
@@ -129,21 +129,37 @@ p {
 	left: 90px;
 	width: 48px;
 	height: 48px;
+	border: solid 3px rgba(255, 255, 255, .5);
 	border-radius: 50%;
 	-moz-border-radius: 50%;
 	-webkit-border-radius: 50%;
-	border: solid 3px rgba(255, 255, 255, .5);
+}
 
+.avatar img {
+    opacity: 0;
+	border-radius: 50%;
+	-moz-border-radius: 50%;
+	-webkit-border-radius: 50%;
+}
+
+.avatar img.present {
+    transition: opacity 1s linear;
+    -webkit-transition: 1s linear;
+    opacity: 1;
+}
+
+#username-content {
+    display: none;
 }
 
 .username {
 	color: white;
 	padding-top: 10px;
+	font-weight: bold;
 }
 
 .or {
 	margin-top: 30px;
-
 }
 
 

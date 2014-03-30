@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Catch meme all!</title>
+	<link rel="stylesheet" type="text/css" media="all" href="assets/global.css" />
+</head>
+<body>
+	<div id="connect">
+		<h1 id="pagetitle">Il reste <span id="titlestart"><span id="nb-places-restantes">5</span> places</span> dans les cloods!</h1>
+		<div id="players">
+			<div class="cloud">
+				<img class="cloud-img" src="assets/images/cloud1.png"></img>
+                <div class="avatar">
+                    <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" width="48" height="48" />
+                </div>
+				<p class="username">&nbsp;</p>
+			</div>
+			<div class="cloud">
+				<img class="cloud-img" src="assets/images/cloud2.png"></img>
+                <div class="avatar">
+                    <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" width="48" height="48" />
+                </div>
+				<p class="username">&nbsp;</p>
+			</div>
+			<div class="cloud">
+				<img class="cloud-img" src="assets/images/cloud3.png"></img>
+                <div class="avatar">
+                    <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" width="48" height="48" />
+                </div>
+				<p class="username">&nbsp;</p>
+			</div>
+			<div class="cloud">
+				<img class="cloud-img" src="assets/images/cloud4.png"></img>
+                <div class="avatar">
+                    <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" width="48" height="48" />
+                </div>
+				<p class="username">&nbsp;</p>
+			</div>
+			<div class="cloud">
+				<img class="cloud-img" src="assets/images/cloud5.png"></img>
+                <div class="avatar">
+                    <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" width="48" height="48" />
+                </div>
+				<p class="username">&nbsp;</p>
+			</div>
+		</div>
+        <form id="username-content">
+            <input type="text" id="username" placeholder="Votre nom d'utilisateur" />
+            <input type="hidden" id="isTwitter" value="0" />
+            <input type="submit" />
+        </div>
+        <div id="login-select">
+            <a href="#" class="button twitter-connect">Entrez votre username Twitter</a>
+            <p class="or">Pas de compte twitter?</p>
+            <a href="#" class="light-button connect">Entrez votre nom</a>
+            <p>(mais vous ne verrez pas votre joli avatar)</p>
+        </div>
+	</div>
+
+<script src="/socket.io/socket.io.js"></script>
+    <script type="text/javascript" src="assets/jquery.min.js"></script>
+    <script type="text/javascript" src="assets/play.js"></script>
+</body>
+</html>
