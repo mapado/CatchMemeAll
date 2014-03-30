@@ -73,11 +73,6 @@ socket.on('game start', function (data) {
 
 $(function() {
     $('.twitter-connect, .connect').on('click', function () {
-        if ($(this).hasClass('twitter-connect')) {
-            $('#isTwitter').val('1');
-        } else {
-            $('#isTwitter').val('0');
-        }
         $('#username-content').show();
         $('#login-select').hide();
         $('#username').select();
@@ -87,11 +82,18 @@ $(function() {
 
     $('#username-content').on('submit', function () {
         // lets connect to the user
+        username = $('#username').val()
+        isTwitter = username[0] == '@'
+
+        // remove @ from twitter username
+        if (isTwitter) {
+            username = username.slice(1)
+        }
         socket.emit(
             'logged in',
             {
-                'name': $('#username').val(),
-                'isTwitter': $('#isTwitter').val() == '1'
+                'name': username,
+                'isTwitter': isTwitter,
             }
         )
 
