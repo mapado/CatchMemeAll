@@ -149,6 +149,7 @@ Game = (function() {
   Game.prototype.create = function() {
     var p, _i, _len, _ref;
     console.log(':create');
+    this.remainingColliders = 5;
     this.phaser.physics.startSystem(Phaser.Physics.P2JS);
     this.phaser.physics.p2.gravity.y = 50;
     this.phaser.add.sprite(0, 0, 'sky');
@@ -189,10 +190,13 @@ Game = (function() {
   Game.prototype.render = function() {};
 
   Game.prototype.click = function(pointer) {
-    this.socket.emit('add bubble', {
-      x: pointer.x,
-      y: pointer.y
-    });
+    if (this.remainingColliders > 0) {
+      this.socket.emit('add bubble', {
+        x: pointer.x,
+        y: pointer.y
+      });
+      this.remainingColliders -= 1;
+    }
   };
 
   return Game;
