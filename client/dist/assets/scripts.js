@@ -38,7 +38,7 @@ Player = (function() {
         fill: '#fff'
     });
 
-    this.scoreText = this.game.phaser.add.text(x - 50, y+85, '', {
+    this.scoreText = this.game.phaser.add.text(x - 50, y+60, '', {
       font: '20px arial',
       fontWeight: 600,
       fill: '#88f'
