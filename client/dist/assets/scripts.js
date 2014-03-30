@@ -55,7 +55,7 @@ Ball = (function() {
     this.coord = coord;
     this.score = score;
     this.type = type;
-    this.ball = this.game.balls.create(this.coord, 0, 'nyancat');
+    this.ball = this.game.balls.create(this.coord, 0, type);
     this.ball.physicsBodyType = Phaser.Physics.P2JS;
     this.ball.body.onBeginContact.add(this.captureBall, this);
   }
@@ -99,7 +99,8 @@ Game = (function() {
       return console.log(data);
     }));
     this.socket.on('character spawned', (function(data) {
-      new Ball(self, data.startX * self.phaser.width, 0, 'facecat');
+      console.log(data.name);
+      new Ball(self, data.startX * self.phaser.width, data.score, data.name);
     }));
     this.socket.on('game stop', (function(data) {
       console.log(data);
@@ -107,30 +108,15 @@ Game = (function() {
 
   }
 
-  Game.prototype.generate_fake_balls = function() {
-    var ball, i, rd, _i, _results;
-    _results = [];
-    for (i = _i = 0; _i <= 12; i = ++_i) {
-      rd = Math.random();
-      if (0.95 < rd) {
-        _results.push(ball = new Ball(this, i * 80, 10, 'facecat'));
-      } else {
-        _results.push(void 0);
-      }
-    }
-    return _results;
-  };
-
   Game.prototype.preload = function() {
     console.log(':preload');
     this.phaser.load.image('sky', '/assets/images/sky.png');
     this.phaser.load.image('cloud', '/assets/images/cloud1.png');
-    this.phaser.load.image('fb_evil', '/assets/images/fb-evil.png');
-    this.phaser.load.image('all_the_things', '/assets/images/allthethings.png');
-    this.phaser.load.image('nyancat', '/assets/images/nyancat.png');
-    this.phaser.load.image('unicorn', '/assets/images/unicorn.png');
-    this.phaser.load.image('trollface', '/assets/images/trollface.png');
-    this.phaser.load.image('nope', '/assets/images/nope.png');
+    this.phaser.load.image('Facebook', '/assets/images/fb-evil.png');
+    this.phaser.load.image('Cat', '/assets/images/nyancat.png');
+    //this.phaser.load.image('Cat', '/assets/images/cat.png');
+    this.phaser.load.image('Unicorn', '/assets/images/unicorn.png');
+    this.phaser.load.image('Trollface', '/assets/images/trollface.png');
     return this.phaser.load.image('collider', '/assets/images/circle.png');
   };
 
