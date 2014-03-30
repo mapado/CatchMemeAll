@@ -4,7 +4,7 @@ class Character
 
 
 class Trollface extends Character
-    @PROBABILITY = 10
+    @PROBABILITY = 100
     constructor: (@startX)->
         super(@startX)
         @name = "Trollface"
@@ -12,7 +12,7 @@ class Trollface extends Character
 
 
 class Cat extends Character
-    @PROBABILITY = 5
+    @PROBABILITY = 50
     constructor: (@startX)->
         super(@startX)
         @name = "Cat"
@@ -20,7 +20,7 @@ class Cat extends Character
 
 
 class NyanCat extends Character
-    @PROBABILITY = 3
+    @PROBABILITY = 30
     constructor: (@startX)->
         super(@startX)
         @name = "NyanCat"
@@ -36,11 +36,19 @@ class Unicorn extends Character
 
 
 class Facebook extends Character
-    @PROBABILITY = 2
+    @PROBABILITY = 20
     constructor: (@startX)->
         super(@startX)
         @name = "Facebook"
         @score = -1
+
+class Mapado extends Character
+    @PROBABILITY = 5
+    constructor: (@startX)->
+        super(@startX)
+        @name = "Mapado"
+        @score = 100
+
 
 
 class CharacterFhacktory
@@ -51,6 +59,7 @@ class CharacterFhacktory
         "NyanCat": NyanCat,
         "Unicorn": Unicorn,
         "Facebook": Facebook,
+        "Mapado": Mapado
     }
 
     getWeightedMapping: ->
