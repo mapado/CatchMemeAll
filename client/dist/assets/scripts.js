@@ -40,9 +40,14 @@ Player = (function() {
     console.log(id, avatar, name, position);
   }
 
-  Player.prototype.addScore = function(score) {
-    this.score += score;
-    return this.scoreText.setText(this.name + ": " + this.score);
+  Player.prototype.displayScore = function(score) {
+    this.score = parseInt(score);
+    this.scoreText.setText(this.name + ": " + this.score);
+  }
+
+  Player.prototype.sendScore = function(score) {
+    this.score += parseInt(score);
+    this.game.socket.emit('update score', this.score);
   };
 
   return Player;
@@ -62,7 +67,7 @@ Ball = (function() {
 
   Ball.prototype.captureBall = function(k) {
     if (k.sprite.key === 'cloud') {
-      this.game.players[k.uuid].addScore(this.score);
+      this.game.players[k.uuid].sendScore(this.score);
       return this.ball.kill();
     }
   };
@@ -95,17 +100,24 @@ Game = (function() {
       })
     });
     this.socket = socket;
-    this.socket.on('new player', (function(data) {
-      return console.log(data);
-    }));
+
     this.socket.on('character spawned', (function(data) {
       new Ball(self, data.startX * self.phaser.width, data.score, data.name);
     }));
+
     this.socket.on('game stop', (function(data) {
+
     }));
+
     this.socket.on('bubble added', function(player, coord) {
+      console.log('buddle added', coord);
       self.buildCollider(coord);
     });
+
+    this.socket.on('score updated', function(player) {
+      console.log('score updated', player);
+      self.players[player.id].displayScore(player.score);
+    })
 
   }
 
@@ -141,11 +153,6 @@ Game = (function() {
     this.colliders = this.phaser.add.group();
     this.colliders.enableBody = true;
     this.colliders.physicsBodyType = Phaser.Physics.P2JS;
-    this.new_line = new Phaser.Line(0, 0, 0, 0);
-
-    socket.on('', function() {
-
-    });
 
     return this.phaser.input.onDown.add(this.click, this);
   };
