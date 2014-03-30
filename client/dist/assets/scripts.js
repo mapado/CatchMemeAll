@@ -33,7 +33,6 @@ Player = (function() {
     this.bucket.body.uuid = this.id;
     this.bucket.playerParent = this;
     this.bucket.scale.setTo(1, 1);
-    debugger
     this.scoreText = this.game.phaser.add.text(x - 70, y, '', {
       font: '22px arial',
       fill: '#000'
@@ -100,12 +99,13 @@ Game = (function() {
       return console.log(data);
     }));
     this.socket.on('character spawned', (function(data) {
-      console.log(data.name);
       new Ball(self, data.startX * self.phaser.width, data.score, data.name);
     }));
     this.socket.on('game stop', (function(data) {
-      console.log(data);
     }));
+    this.socket.on('bubble added', function(player, coord) {
+      self.buildCollider(coord);
+    });
 
   }
 
@@ -131,7 +131,6 @@ Game = (function() {
     this.buckets.enableBody = true;
     this.buckets.physicsBodyType = Phaser.Physics.P2JS;
     _ref = this.initPlayers.playerList;
-    console.log(_ref);
     for (_i = 0, _len = _ref.length; _i < _len; _i++) {
       p = _ref[_i];
       this.players[p.id] = new Player(this, _i, p.id, p.avatar, p.name, p.position, p.score);
@@ -155,9 +154,9 @@ Game = (function() {
     return plateform.playerParent.captureBall(ball);
   };
 
-  Game.prototype.buildCollider = function(collider) {
+  Game.prototype.buildCollider = function(coord) {
     var collider_sprite;
-    collider_sprite = this.colliders.create(collider.x, collider.y, 'collider');
+    collider_sprite = this.colliders.create(coord.x, coord.y, 'collider');
     this.phaser.physics.p2.enable(collider_sprite, false);
     collider_sprite.body.data.motionState = p2.Body.STATIC;
     return collider_sprite.body.data.gravityScale = 0;
@@ -170,7 +169,10 @@ Game = (function() {
   Game.prototype.render = function() {};
 
   Game.prototype.click = function(pointer) {
-    return this.buildCollider(pointer);
+    this.socket.emit('add bubble', {
+      x: pointer.x,
+      y: pointer.y
+    });
   };
 
   return Game;
