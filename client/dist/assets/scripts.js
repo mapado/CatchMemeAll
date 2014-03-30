@@ -38,12 +38,6 @@ Player = (function() {
         fill: '#fff'
     });
 
-    game.load.image('image-url'+id, avatar);
-
-    this.image = new Phaser.Image(game.phaser, x- 50, y-10, avatar);
-    game.add.sprite(30, 30, 'image-url' + id);
-
-
     this.scoreText = this.game.phaser.add.text(x - 50, y+85, '', {
       font: '20px arial',
       fontWeight: 600,
