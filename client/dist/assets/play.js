@@ -112,9 +112,14 @@ socket.on('game countdown', function (data) {
         var text = i;
         if (i == 0) {
             text = 'Catch all the memes!';
-            $('#pagetitle').removeClass('the-end active')
-                .append('<img src="assets/images/allthethings.png" ></img>');
+            $('#pagetitle').removeClass('the-end active');
+            img = $('<img />').attr({
+                'id', "allthethings",
+                'src', "assets/images/allthethings.png"
+            });
+            $('#pagetitle').after(img);
         } else if (i < 0) {
+            $('#allthething').remove();
             clearInterval(countdown);
             return;
         } else {
