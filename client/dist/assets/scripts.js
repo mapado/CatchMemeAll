@@ -230,9 +230,7 @@
         this.remainingColliders -= 1;
       }
     };
-
     return Game;
-
   })();
 
   window.Game = Game;
