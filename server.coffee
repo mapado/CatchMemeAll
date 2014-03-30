@@ -39,11 +39,11 @@ io.sockets.on 'connection', (socket) ->
     socket.emit 'welcome', player
     socket.emit 'player list', game.playerList
 
-
     # Handle disconnection
     socket.on 'disconnect', () ->
         game.removePlayer(player)
 
+    # fetch the player's avatar given its username
     socket.on 'logged in', (data) ->
         player.name = data.name
 
