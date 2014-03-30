@@ -4,8 +4,8 @@ EventEmitter = (require 'events').EventEmitter
 
 
 class Game
-    @MAX_GAME_TIME = 5000
-    @MAX_PLAYERS: 2 # 5
+    @MAX_GAME_TIME = 15000
+    @MAX_PLAYERS: 5
 
     constructor: ()->
         @playerList = []
@@ -18,6 +18,11 @@ class Game
 
     removePlayer: (player) ->
         @playerList.remove player
+
+        position = 1
+        for player in @playerList
+            player.position = position
+            position += 1
 
     acceptsPlayer: ->
         return @playerList.length < Game.MAX_PLAYERS
