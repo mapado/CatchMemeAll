@@ -1,6 +1,7 @@
 crypto = require 'crypto'
 
 class Player
+    # A player registered in a Game
     constructor: (@id)->
         @score = 0
         @name = 'Anonymous'

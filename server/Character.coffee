@@ -1,3 +1,6 @@
+# Definiition of the character class that can spawn on the Game
+# and their associated probability of appearance, score and name
+
 class Character
 
     constructor: (@startX)->
@@ -52,6 +55,7 @@ class Mapado extends Character
 
 
 class CharacterFhacktory
+    # Create new characters
 
     @MAPPING = {
         "Trollface": Trollface,
@@ -63,6 +67,8 @@ class CharacterFhacktory
     }
 
     getWeightedMapping: ->
+        # Generate an array containing more elements of the more probable
+        # characters, and inversely
         if (this.weightedMapping == undefined)
             console.log 'Generating characters wheigted mapping'
             keys = Object.keys(CharacterFhacktory.MAPPING)
@@ -76,6 +82,7 @@ class CharacterFhacktory
         return this.weightedMapping
 
     newRandomCharacter: (startX) ->
+        # Create new random character at a given X coordinate
         names = this.getWeightedMapping()
         idx = Math.floor(Math.random() * names.length)
         name = names[idx]
@@ -85,6 +92,7 @@ class CharacterFhacktory
         return newChar
 
     newCharacter: (name, startX) ->
+        # Create a new named character at a given X coordinate
         _cls = CharacterFhacktory.MAPPING[name]
         return new _cls(startX)
 
