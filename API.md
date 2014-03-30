@@ -20,7 +20,7 @@ is triggered when you try to log in and the server is full
 
 ### Game events
 ```
-'game start'
+'game start, (Game game)'
 ```
 is triggered when the game starts
 
@@ -81,6 +81,14 @@ is triggered by the player when he removes a wall
 
 
 ## Object definition
+### Game
+* playerList
+
+### Character
+* name
+* score
+* startX
+
 ### Player
 * id
 * name
