@@ -6,22 +6,21 @@ class Coord
     constructor: (@x, @y) ->
 
 class Player
-    constructor: (@game, @id, @avatar) ->
+    constructor: (@game, @id, @avatar, @name, @position, @score) ->
         nbr_player = 5
         max_space_player = @game.phaser.width / (nbr_player + 1)
+        console.log "bisous bisous", @position
+        pointer = max_space_player + @position * max_space_player - (max_space_player / 2)
 
-        pointer = max_space_player + @id * max_space_player - (max_space_player / 2)
-
-        x =  max_space_player + @id * max_space_player - (max_space_player / 2)
+        x =  max_space_player + @position * max_space_player - (max_space_player / 2)
         y =  @game.phaser.world.height - 25
 
-        @bucket = @game.buckets.create x, y, 'ground'
+        @bucket = @game.buckets.create x, y, 'cloud'
         @bucket.width = max_space_player - 10
         @bucket.body.data.motionState = p2.Body.STATIC
         @bucket.body.uuid = @id
         @bucket.playerParent = this
         @bucket.scale.setTo 0.3, 2
-        @score = 0
         @scoreText = @game.phaser.add.text pointer, 16, '', font: '32px arial', fill: '#fff'
 
     addScore: (score) ->
@@ -30,26 +29,24 @@ class Player
 
 class Ball
     constructor: (@game, @coord, @score, @type) ->
-        @ball = @game.balls.create @coord, 0, 'star'
+        @ball = @game.balls.create @coord, 0, 'nyancat'
         @ball.physicsBodyType = Phaser.Physics.P2JS
 
         @ball.body.onBeginContact.add(@captureBall, this)
 
     captureBall: (k) ->
-        if k.sprite.key == 'ground'
+        if k.sprite.key == 'cloud'
             @game.players[k.uuid].addScore(@score)
             @ball.kill()
 
 class Game
 
-    constructor: (@players) ->
-        console.log @players
+    constructor: (@initPlayers) ->
 
         # basic config
         @balls = null
         @buckets = null
         @colliders = null
-        @players = players
         # Generate the word
         self = this
         @phaser = new Phaser.Game(
@@ -68,11 +65,6 @@ class Game
         @socket.on('game stop', (-> console.log "GAME STOP" ))
 
 
-    generate_fake_player: () ->
-        x = y = 0
-        for uuid in [0..4]
-            @players[uuid] = new Player(this, uuid, null)
-
     generate_fake_balls: () ->
         for i in [0..12]
             rd = Math.random()
@@ -83,45 +75,49 @@ class Game
     preload: () ->
       console.log ':preload'
       @phaser.load.image 'sky', '/assets/images/sky.png'
-      @phaser.load.image 'ground', '/assets/images/platform.png'
-      @phaser.load.image 'circle', '/assets/images/circle.png'
-      @phaser.load.image 'star', '/assets/images/star.png'
-      @phaser.load.image 'wall', '/assets/images/star.png'
+      @phaser.load.image 'cloud', '/assets/images/cloud1.png'
+      @phaser.load.image 'fb_evil', '/assets/images/fb-evil.png'
+      @phaser.load.image 'all_the_things', '/assets/images/allthethings.png'
+      @phaser.load.image 'nyancat', '/assets/images/nyancat.png'
+      @phaser.load.image 'unicorn', '/assets/images/unicorn.png'
+      @phaser.load.image 'trollface', '/assets/images/trollface.png'
+      @phaser.load.image 'nope', '/assets/images/nope.png'
+      @phaser.load.image 'collider', '/assets/images/circle.png'
 
     create: () ->
-      console.log ':create'
-      @phaser.physics.startSystem Phaser.Physics.P2JS
-      @phaser.physics.p2.gravity.y = 200
-      @phaser.add.sprite 0, 0, 'sky'
+        console.log ':create'
+        @phaser.physics.startSystem Phaser.Physics.P2JS
+        @phaser.physics.p2.gravity.y = 200
+        @phaser.add.sprite 0, 0, 'sky'
 
-      @buckets = @phaser.add.group()
-      @buckets.enableBody = true
-      @buckets.physicsBodyType = Phaser.Physics.P2JS
-
-      @generate_fake_player()
+        @buckets = @phaser.add.group()
+        @buckets.enableBody = true
+        @buckets.physicsBodyType = Phaser.Physics.P2JS
 
 
-      #cursors = @phaser.input.keyboard.createCursorKeys()
-      @balls = @phaser.add.group()
-      @balls.enableBody = true
-      @balls.physicsBodyType = Phaser.Physics.P2JS
+        for p in @initPlayers.playerList
+            @players[p.id] = new Player(this, p.id, p.avatar, p.name, p.position, p.score )
 
-      @colliders = @phaser.add.group()
-      @colliders.enableBody = true
-      @colliders.physicsBodyType = Phaser.Physics.P2JS
+        @balls = @phaser.add.group()
+        @balls.enableBody = true
+        @balls.physicsBodyType = Phaser.Physics.P2JS
 
-      @new_line = new Phaser.Line 0, 0, 0, 0
-      @phaser.input.onDown.add(@click, this)
+        @colliders = @phaser.add.group()
+        @colliders.enableBody = true
+        @colliders.physicsBodyType = Phaser.Physics.P2JS
+
+        @new_line = new Phaser.Line 0, 0, 0, 0
+        @phaser.input.onDown.add(@click, this)
 
 
     collectBalls: (plateform, ball) ->
       plateform.playerParent.captureBall(ball)
 
-    buildCollider: (wall) ->
-        wall_sprite = @colliders.create  wall.x, wall.y, 'circle'
-        @phaser.physics.p2.enable(wall_sprite, false)
-        wall_sprite.body.data.motionState = p2.Body.STATIC
-        wall_sprite.body.data.gravityScale = 0
+    buildCollider: (collider) ->
+        collider_sprite = @colliders.create  collider.x, collider.y, 'collider'
+        @phaser.physics.p2.enable(collider_sprite, false)
+        collider_sprite.body.data.motionState = p2.Body.STATIC
+        collider_sprite.body.data.gravityScale = 0
 
     update: () ->
       @generate_fake_balls()
