@@ -16,6 +16,7 @@ app.get '/', (req, res) ->
 app.get '/play', (req, res) ->
     res.sendfile(__dirname + '/client/play.html')
 
+
 # instantiate a new game
 game = new Game
 
@@ -27,7 +28,7 @@ game.eventEmitter.on 'game stop', (e) ->
     game = new Game
     io.sockets.emit('game stop', winners)
 
-# Send the position of a newly spawed character to all clients
+# Send the position of a newly spawned character to all clients
 game.eventEmitter.on 'character spawned', (character) ->
     io.sockets.emit('character spawned', character)
 
@@ -51,7 +52,7 @@ io.sockets.on 'connection', (socket) ->
         player.name = data.name
         console.log('user ' + player.name + ' is logged')
 
-        # if user is a twitter account, let's fetch his avatar
+        # if user is a twitter account, fetch his/her avatar
         if data.isTwitter
             http.get(
                 {
@@ -67,11 +68,14 @@ io.sockets.on 'connection', (socket) ->
                             io.sockets.emit('player updated', player)
             )
 
+        # add the player if the game can handle it
         if game.acceptsPlayer()
             game.addPlayer(player)
         else
             socket.emit 'game full'
 
+        # schedule the display of the new identity, the time for the avatar
+        # to come back from the twitter/gravatar API
         setTimeout(
             () ->
                 io.sockets.emit 'new player', player
@@ -80,6 +84,7 @@ io.sockets.on 'connection', (socket) ->
 
         # Start the game when the required number of players have joined
         if game.isReady()
+            # Start a countdown from 5 to 0 (total of 7s)
             io.sockets.emit 'game countdown', game
             setTimeout(
                 () ->
