@@ -99,11 +99,12 @@ Game = (function() {
       return console.log(data);
     }));
     this.socket.on('character spawned', (function(data) {
-      return console.log(data);
+      new Ball(self, data.startX * self.phaser.width, 0, 'facecat');
     }));
-    this.socket.on('game stop', (function() {
-      return console.log("GAME STOP");
+    this.socket.on('game stop', (function(data) {
+      console.log(data);
     }));
+
   }
 
   Game.prototype.generate_fake_balls = function() {
@@ -137,7 +138,7 @@ Game = (function() {
     var p, _i, _len, _ref;
     console.log(':create');
     this.phaser.physics.startSystem(Phaser.Physics.P2JS);
-    this.phaser.physics.p2.gravity.y = 200;
+    this.phaser.physics.p2.gravity.y = 50;
     this.phaser.add.sprite(0, 0, 'sky');
     this.buckets = this.phaser.add.group();
     this.buckets.enableBody = true;
@@ -155,6 +156,11 @@ Game = (function() {
     this.colliders.enableBody = true;
     this.colliders.physicsBodyType = Phaser.Physics.P2JS;
     this.new_line = new Phaser.Line(0, 0, 0, 0);
+
+    socket.on('', function() {
+
+    });
+
     return this.phaser.input.onDown.add(this.click, this);
   };
 
@@ -171,7 +177,7 @@ Game = (function() {
   };
 
   Game.prototype.update = function() {
-    return this.generate_fake_balls();
+
   };
 
   Game.prototype.render = function() {};
