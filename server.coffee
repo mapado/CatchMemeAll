@@ -38,7 +38,6 @@ io.sockets.on 'connection', (socket) ->
     player = new Player(socket.id)
 
     # Send joining information to all players
-    player.sayHello()
     socket.emit 'welcome', player
     socket.emit 'player list', game.playerList
 
