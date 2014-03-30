@@ -139,6 +139,7 @@ Game = (function() {
     this.phaser.load.image('Unicorn', '/assets/images/unicorn.png');
     this.phaser.load.image('Trollface', '/assets/images/trollface.png');
     this.phaser.load.image('collider', '/assets/images/NSA.png');
+    this.phaser.load.image('Mapado', '/assets/images/mapado.png');
     _ref = this.initPlayers.playerList;
     for (_i = 0, _len = _ref.length; _i < _len; _i++) {
       p = _ref[_i];
