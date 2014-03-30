@@ -20,7 +20,7 @@ $ node server.js
 
 Also, you need to run a Python flask server talking to the twitter API.
 ```bash
-$ mkvirtualenv catchthemall
+$ mkvirtualenv catchmemeall
 $ pip install -r requirements.txt
 $ python twitter_server.py
 ```
