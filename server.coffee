@@ -6,7 +6,6 @@ http = require 'http'
 server = http.createServer app
 io = (require 'socket.io').listen server
 
-
 server.listen 4241
 
 # Serve  the client code

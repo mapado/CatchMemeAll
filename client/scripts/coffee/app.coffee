@@ -60,7 +60,8 @@ class Game
             preload:( -> self.preload()),
             create: ( -> self.create()),
             update: (-> self.update()),
-            render: (-> self.render())
+            render: (-> self.render()),
+            parent: 'connect'
         )
         @socket = socket
         @socket.on('new player', ((data) -> console.log data))
