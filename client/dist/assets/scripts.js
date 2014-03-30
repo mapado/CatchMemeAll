@@ -26,23 +26,27 @@ Player = (function() {
     max_space_player = this.game.phaser.width / (nbr_player);
     pointer = max_space_player + idx * max_space_player - (max_space_player / 2);
     x = max_space_player + idx * max_space_player - (max_space_player / 2);
-    y = this.game.phaser.world.height - 45;
-    this.bucket = this.game.buckets.create(x, y, 'cloud');
+    y = this.game.phaser.world.height - 110;
+    this.bucket = this.game.buckets.create(x, y, 'cloud'+ idx);
     this.bucket.width = max_space_player - 10;
     this.bucket.body.data.motionState = p2.Body.STATIC;
     this.bucket.body.uuid = this.id;
     this.bucket.playerParent = this;
     this.bucket.scale.setTo(1, 1);
-    this.scoreText = this.game.phaser.add.text(x - 70, y, '', {
-      font: '22px arial',
-      fill: '#000'
+    this.game.phaser.add.text(x - 50, y+50, this.name,{
+        font: '28px arial',
+        fill: '#fff'
+    });
+    this.scoreText = this.game.phaser.add.text(x - 50, y+85, '', {
+      font: '20px arial',
+      fill: '#00f'
     });
     console.log(id, avatar, name, position);
   }
 
   Player.prototype.addScore = function(score) {
     this.score += score;
-    return this.scoreText.setText(this.name + ": " + this.score);
+    return this.scoreText.setText(score)
   };
 
   return Player;
@@ -93,7 +97,8 @@ Game = (function() {
       render: (function() {
         return self.render();
       })
-    });
+    },
+    true);
     this.socket = socket;
     this.socket.on('new player', (function(data) {
       return console.log(data);
@@ -111,11 +116,14 @@ Game = (function() {
 
   Game.prototype.preload = function() {
     console.log(':preload');
-    this.phaser.load.image('sky', '/assets/images/sky.png');
-    this.phaser.load.image('cloud', '/assets/images/cloud1.png');
+    this.phaser.load.image('cloud0', '/assets/images/cloud1.png');
+    this.phaser.load.image('cloud1', '/assets/images/cloud2.png');
+    this.phaser.load.image('cloud2', '/assets/images/cloud3.png');
+    this.phaser.load.image('cloud3', '/assets/images/cloud4.png');
+    this.phaser.load.image('cloud4', '/assets/images/cloud5.png');
     this.phaser.load.image('Facebook', '/assets/images/fb-evil.png');
-    this.phaser.load.image('Cat', '/assets/images/nyancat.png');
-    //this.phaser.load.image('Cat', '/assets/images/cat.png');
+    this.phaser.load.image('Cat', '/assets/images/cat.png');
+    this.phaser.load.image('Nyancat', '/assets/images/nyancat.png');
     this.phaser.load.image('Unicorn', '/assets/images/unicorn.png');
     this.phaser.load.image('Trollface', '/assets/images/trollface.png');
     return this.phaser.load.image('collider', '/assets/images/circle.png');
