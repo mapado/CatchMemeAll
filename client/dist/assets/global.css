@@ -149,10 +149,6 @@ p {
     left: 50%;
     margin-left: -593px;
 }
-#players.playing .username {
-    display: none;
-}
-
 
 .cloud {
 	position: relative;
