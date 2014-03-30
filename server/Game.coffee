@@ -4,9 +4,8 @@ EventEmitter = (require 'events').EventEmitter
 
 
 class Game
-    @MAX_PLAYERS: 5 # 5
-    @NB_CHARACTERS_PER_PLAYER: 5 # 20
     @MAX_GAME_TIME = 5000
+    @MAX_PLAYERS: 2 # 5
 
     constructor: ()->
         @playerList = []
