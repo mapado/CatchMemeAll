@@ -56,15 +56,17 @@ class Game
         startX = Math.random()
         return this.characterFhacktory.newRandomCharacter(startX)
 
+    comparePlayers: (p1, p2) ->
+        if p1.score < p2.score
+            return 1
+        else if p1.score > p2.score
+            return -1
+        else
+            return 0
+
     getWinners: () ->
-        max = 0
-        winners = []
-        for player in @playerList
-            if player.score == max
-                winners.push player
-            else if player.score > max
-                winners = []
-                winners.push player
-        return winners
+        return @playerList.sort(this.comparePlayers)
+
+
 
 module.exports = Game
