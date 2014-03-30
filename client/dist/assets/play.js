@@ -56,6 +56,7 @@ socket.on('player updated', function (player) {
     updatePlayer(player);
 });
 
+// Hide the username text input after having joined the game
 socket.on('game full', function () {
     updateTitle(-1);
     $('#username-content').hide();
@@ -75,6 +76,7 @@ $(function() {
         }
         $('#username-content').show();
         $('#login-select').hide();
+        $('#username').select();
 
         return false;
     });
