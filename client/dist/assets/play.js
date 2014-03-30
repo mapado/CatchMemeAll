@@ -114,8 +114,8 @@ socket.on('game countdown', function (data) {
             text = 'Catch all the memes!';
             $('#pagetitle').removeClass('the-end active');
             img = $('<img />').attr({
-                'id', "allthethings",
-                'src', "assets/images/allthethings.png"
+                'id': "allthethings",
+                'src': "assets/images/allthethings.png"
             });
             $('#pagetitle').after(img);
         } else if (i < 0) {
