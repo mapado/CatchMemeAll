@@ -71,7 +71,7 @@ Ball = (function() {
   }
 
   Ball.prototype.captureBall = function(k) {
-    if (k.sprite.key === 'cloud') {
+    if (k.sprite.key.indexOf('cloud')  !== -1) {
       this.game.players[k.uuid].sendScore(this.score);
       return this.ball.kill();
     }
@@ -138,7 +138,7 @@ Game = (function() {
     this.phaser.load.image('Nyancat', '/assets/images/nyancat.png');
     this.phaser.load.image('Unicorn', '/assets/images/unicorn.png');
     this.phaser.load.image('Trollface', '/assets/images/trollface.png');
-    return this.phaser.load.image('collider', '/assets/images/circle.png');
+    this.phaser.load.image('collider', '/assets/images/NSA.png');
   };
 
   Game.prototype.create = function() {
