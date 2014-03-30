@@ -63,7 +63,29 @@ socket.on('game full', function () {
     $('#login-select').hide();
 });
 
-socket.on('game stop', function () {
+function setPodium(div, player) {
+    div.find('.avatar').attr('src', player.avatar);
+    div.find('.username').text(player.name);
+}
+
+socket.on('game stop', function (playerList) {
+    setPodium($('#winners .winner'), playerList[0]);
+    setPodium($('#winners .cloud:nth-child(1)'), playerList[1]);
+    setPodium($('#winners .cloud:nth-child(3)'), playerList[2]);
+    setPodium($('#losers .cloud:nth-child(1)'), playerList[3]);
+    setPodium($('#losers .cloud:nth-child(2)'), playerList[4]);
+
+    $('#connect').hide();
+    $('#podium').show();
+    $('#the-end').addClass('active');
+    setTimeout(function () {
+        $('#the-end').removeClass('active');
+        setTimeout(function () {
+            $('#the-end').hide();
+            $('#winners-loosers').addClass('active');
+        }, 1000);
+    }, 3000);
+
     console.log("GAME STOP");
 });
 
