@@ -134,6 +134,7 @@ socket.on('game countdown', function (data) {
 
 socket.on('game start', function (data) {
     $('#timer').show();
+    $('#players').addClass('playing');
     var timer = 30;
     setInterval(function () {
         timer = timer - 1;
