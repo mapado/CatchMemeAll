@@ -39,9 +39,9 @@ Player = (function() {
     });
 
     this.scoreText = this.game.phaser.add.text(x - 60, y+70, '', {
-      font: '22px arial',
+      font: '25px arial',
       fontWeight: 600,
-      fill: '#008'
+      fill: '#1174AC'
     });
   }
 
