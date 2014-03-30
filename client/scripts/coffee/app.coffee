@@ -7,26 +7,39 @@ class Coord
 
 class Player
     constructor: (@game, @id, @avatar) ->
-        @bucket = @game.plateforms.create 0, 0, 'ground'
-        @bucket.physicsBodyType = Phaser.Physics.P2JS
+        nbr_player = 5
+        max_space_player = @game.phaser.width / (nbr_player + 1)
+
+        pointer = max_space_player + @id * max_space_player - (max_space_player / 2)
+
+        x =  max_space_player + @id * max_space_player - (max_space_player / 2)
+        y =  @game.phaser.world.height - 64
+
+        @bucket = @game.buckets.create x, y, 'ground'
+        @bucket.width = max_space_player - 10
+        @bucket.body.data.motionState = p2.Body.STATIC
+        @bucket.body.uuid = @id
         @bucket.playerParent = this
         @bucket.scale.setTo 0.3, 2
-        @bucket.body.immovable = true
-        #@bucket.body.colides(@game.balls, @captureBall)
         @score = 0
-        @scoreText = null
+        @scoreText = @game.phaser.add.text pointer, 16, '', font: '32px arial', fill: '#fff'
 
-    captureBall: (ball) ->
-        ball.kill()
-        @score += 10
-        @displayScore()
-
-    displayScore: () ->
+    addScore: (score) ->
+        @score += score
         @scoreText.setText "player #{@id}: #{@score}"
 
 class Ball
-    constructor: (@balls, @coord, @score, @type) ->
-        star = @balls.create @coord, 0, 'star'
+    constructor: (@game, @coord, @score, @type) ->
+        @ball = @game.balls.create @coord, 0, 'star'
+        @ball.physicsBodyType = Phaser.Physics.P2JS
+
+        @ball.body.onBeginContact.add(@captureBall, this)
+
+    captureBall: (k) ->
+        if k.sprite.key == 'ground'
+            @game.players[k.uuid].addScore(@score)
+            @ball.kill()
+
 
 
 class Game
@@ -38,9 +51,9 @@ class Game
     constructor: (@status, @players) ->
         # basic config
         @balls = null
-        @plateforms = null
-        @walls = null
-        @players = []
+        @buckets = null
+        @colliders = null
+        @players = {}
         # Generate the word
         self = this
         @phaser = new Phaser.Game(
@@ -53,33 +66,21 @@ class Game
             update: (-> self.update()),
             render: (-> self.render())
         )
-        #@socket = socket
-        #@socket.on('new player', ((data) -> console.log data))
-        #@socket.on('character spawned', ((data) -> console.log data))
-        #@socket.on('game stop', (-> console.log "GAME STOP" ))
+        @socket.on('new player', ((data) -> console.log data))
+        @socket.on('character spawned', ((data) -> console.log data))
+        @socket.on('game stop', (-> console.log "GAME STOP" ))
 
 
     generate_fake_player: () ->
         x = y = 0
-        for i in [0..4]
-            @players.push(new Player(this, i, null))
+        for uuid in [0..4]
+            @players[uuid] = new Player(this, uuid, null)
 
     generate_fake_balls: () ->
         for i in [0..12]
             rd = Math.random()
             if 0.95  < rd
-                ball = new Ball(@balls, i*80, 10, 'facecat')
-                ball.physicsBodyType = Phaser.Physics.P2JS
-
-    set_players_position: () ->
-        nbr_player = @players.length
-        max_space_player = @phaser.width / (nbr_player + 1)
-        for player  in @players
-            player.bucket.width = max_space_player - 10
-            pointer = max_space_player + player.id * max_space_player - (max_space_player / 2)
-            player.bucket.x =  max_space_player + player.id * max_space_player - (max_space_player / 2)
-            player.bucket.y =  @phaser.world.height - 64
-            player.scoreText = @phaser.add.text pointer, 16, '', font: '32px arial', fill: '#fff'
+                ball = new Ball(this, i*80, 10, 'facecat')
 
 
     preload: () ->
@@ -96,21 +97,21 @@ class Game
       @phaser.physics.p2.gravity.y = 500
       @phaser.add.sprite 0, 0, 'sky'
 
-      @plateforms = @phaser.add.group()
-      @plateforms.enableBody = true
+      @buckets = @phaser.add.group()
+      @buckets.enableBody = true
+      @buckets.physicsBodyType = Phaser.Physics.P2JS
 
       @generate_fake_player()
 
-      @set_players_position()
 
       #cursors = @phaser.input.keyboard.createCursorKeys()
       @balls = @phaser.add.group()
       @balls.enableBody = true
       @balls.physicsBodyType = Phaser.Physics.P2JS
 
-      @walls = @phaser.add.group()
-      @walls.enableBody = true
-      @walls.physicsBodyType = Phaser.Physics.P2JS
+      @colliders = @phaser.add.group()
+      @colliders.enableBody = true
+      @colliders.physicsBodyType = Phaser.Physics.P2JS
 
       @new_line = new Phaser.Line 0, 0, 0, 0
       @phaser.input.onDown.add(@click, this)
@@ -119,8 +120,8 @@ class Game
     collectBalls: (plateform, ball) ->
       plateform.playerParent.captureBall(ball)
 
-    buildCircle: (wall) ->
-        wall_sprite = @walls.create  wall.x, wall.y, 'circle'
+    buildCollider: (wall) ->
+        wall_sprite = @colliders.create  wall.x, wall.y, 'circle'
         @phaser.physics.p2.enable(wall_sprite, false)
         wall_sprite.body.data.motionState = p2.Body.STATIC
         wall_sprite.body.data.gravityScale = 0
@@ -128,12 +129,10 @@ class Game
     update: () ->
       @generate_fake_balls()
 
-      if @dragging
-            console.log 'push line !'
 
     render: () ->
 
     click: (pointer) ->
-        @buildCircle(pointer)
+        @buildCollider(pointer)
 
 game = new Game()
