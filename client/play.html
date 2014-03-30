@@ -52,7 +52,45 @@
             <input type="hidden" id="isTwitter" value="0" />
             <input type="submit" class="button" value="Rejoindre la partie"/>
         </form>
+	</div>
 
+    <div id="podium" class="hidden">
+		<h1 id="the-end">C'est fini !</h1>
+		<div id="winners-loosers">
+            <div id="winners">
+                <div class="cloud">
+                    <img class="cloud-img" src="assets/images/cloud1.png"></img>
+                    <img class="avatar" src="" width="48" height="48" />
+                    <p class="username">&nbsp;</p>
+                </div>
+                <div class="cloud winner">
+                    <img class="cloud-img" src="assets/images/cloud2.png"></img>
+                    <img class="avatar" src="" width="48" height="48" />
+                    <p class="username">&nbsp;</p>
+                </div>
+                <div class="cloud">
+                    <img class="cloud-img" src="assets/images/cloud3.png"></img>
+                    <img class="avatar" src="" width="48" height="48" />
+                    <p class="username">&nbsp;</p>
+                </div>
+            </div>
+            <div id="losers">
+                <div class="cloud">
+                    <img class="cloud-img" src="assets/images/cloud4.png"></img>
+                    <img class="avatar" src="" width="48" height="48" />
+                    <p class="username">&nbsp;</p>
+                </div>
+                <div class="cloud">
+                    <img class="cloud-img" src="assets/images/cloud5.png"></img>
+                    <img class="avatar" src="" width="48" height="48" />
+                    <p class="username">&nbsp;</p>
+                </div>
+            </div>
+        </div>
+
+		<div>
+			<a href="/play" class="button play-button">Rejouer</a>
+		</div>
 	</div>
 
     <script src="/socket.io/socket.io.js"></script>

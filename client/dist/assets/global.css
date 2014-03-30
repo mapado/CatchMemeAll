@@ -30,6 +30,10 @@ body {
 	background: url("images/texture.png") 50% 100% no-repeat, linear-gradient(to top,#73cfdd 0,#71cfdd 50px,#3fa9b9 100%);
 }
 
+.hidden {
+    display: none;
+}
+
 #home, #content, #allthethings {
 	height: 100%;
 
@@ -53,6 +57,22 @@ h1 {
 #the-end {
 	padding-top: 250px;
 	font-size: 72px;
+    opacity: 0;
+}
+#the-end.active {
+    opacity: 1;
+    transition: opacity 1s linear;
+    -webkit-transition: 1s linear;
+}
+
+#winners-loosers {
+    margin-top: 150px;
+    opacity: 0;
+}
+#winners-loosers.active {
+    opacity: 1;
+    transition: opacity 1s linear;
+    -webkit-transition: 1s linear;
 }
 
 p {
