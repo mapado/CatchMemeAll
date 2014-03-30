@@ -2,6 +2,10 @@ Catch Meme All
 ===========
 Save the internet by rescuing all the endangered meme characters!
 
+This project was coded by Julien Deniau, Christelle Mozzati, Julien Balian, Dimitri Allegoet & Balthazar Rouberol during the Fhacktory 2nd edition.
+
+![Screenshot](http://photos-f.ak.instagram.com/hphotos-ak-prn/10005659_337373949747861_1268425291_n.jpg)
+
 ## Server
 ### Installation
 ```bash
