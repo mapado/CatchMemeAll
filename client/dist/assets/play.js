@@ -4,7 +4,7 @@ function updatePlayer(player) {
     if (typeof player === "number") {
         var position = player;
         var name = '&nbsp;';
-        var avatar = '';
+        var avatar = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
     } else {
         var position = player.position;
         var name = player.name;

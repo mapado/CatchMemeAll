@@ -160,6 +160,12 @@ p {
 	width: 70%;
 }
 
+.medal {
+	position: absolute;
+	right: -10px;
+	top: 60px;
+}
+
 .avatar {
 	position: absolute;
 	bottom: 40px;
@@ -197,7 +203,7 @@ p {
 }
 
 #losers {
-	padding-bottom: 30px;
+	padding-bottom: 80px;
 }
 
 canvas {
