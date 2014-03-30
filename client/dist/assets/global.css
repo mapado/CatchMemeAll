@@ -160,6 +160,12 @@ p {
 	width: 70%;
 }
 
+.medal {
+	position: absolute;
+	right: -10px;
+	top: 60px;
+}
+
 .avatar {
 	position: absolute;
 	bottom: 40px;
