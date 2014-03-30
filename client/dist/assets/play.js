@@ -72,6 +72,13 @@ socket.on('player updated', function (player) {
     updatePlayer(player);
 });
 
+socket.on('score updated', function (player) {
+    $('#sound-point').trigger('play');
+});
+socket.on('bubble added', function (player) {
+    $('#sound-nsa').trigger('play');
+});
+
 // Hide the username text input after having joined the game
 socket.on('game full', function () {
     updateTitle(-1);
@@ -171,6 +178,7 @@ $(function() {
         )
 
         $('#username-content').hide();
+        $('#music').trigger('play');
 
         return false;
     });

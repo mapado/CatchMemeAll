@@ -1,8 +1,6 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 var Ball, Coord, Game, Player;
 
-console.log('hello phaser');
-
 Coord = (function() {
   function Coord(x, y) {
     this.x = x;
@@ -33,10 +31,7 @@ Player = (function() {
     this.bucket.body.uuid = this.id;
     this.bucket.playerParent = this;
     this.bucket.scale.setTo(1, 1);
-    this.game.phaser.add.text(x - 50, y+50, this.name,{
-        font: '28px arial',
-        fill: '#fff'
-    });
+    this.bucket.renderable = false;
 
     this.scoreText = this.game.phaser.add.text(x - 60, y+70, '', {
       font: '25px arial',
@@ -67,6 +62,7 @@ Ball = (function() {
     this.type = type;
     this.ball = this.game.balls.create(this.coord, 0, type);
     this.ball.physicsBodyType = Phaser.Physics.P2JS;
+    this.ball.body.mass = 0.5
     this.ball.body.onBeginContact.add(this.captureBall, this);
   }
 
