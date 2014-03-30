@@ -56,12 +56,11 @@ class Game
             1200,
             680,
             Phaser.AUTO,
-            '',
+            'game',
             preload:( -> self.preload()),
             create: ( -> self.create()),
             update: (-> self.update()),
-            render: (-> self.render()),
-            parent: 'connect'
+            render: (-> self.render())
         )
         @socket = socket
         @socket.on('new player', ((data) -> console.log data))
