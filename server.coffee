@@ -22,6 +22,7 @@ game = new Game
 # Intercepts game 'game stop' event and broadcast it to all clients,
 # with the identity of the winner(s)
 game.eventEmitter.on 'game stop', (e) ->
+    console.log('GAME STOP')
     winners = game.getWinners()
     game = new Game
     io.sockets.emit('game stop', winners)
@@ -37,7 +38,6 @@ io.sockets.on 'connection', (socket) ->
 
     # Send joining information to all players
     player.sayHello()
-    console.log(game.playerList.length)
     socket.emit 'welcome', player
     socket.emit 'player list', game.playerList
 

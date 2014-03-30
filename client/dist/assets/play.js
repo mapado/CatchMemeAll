@@ -133,6 +133,13 @@ socket.on('game countdown', function (data) {
 });
 
 socket.on('game start', function (data) {
+    $('#timer').show();
+    var timer = 30;
+    setInterval(function () {
+        timer = timer - 1;
+        $('#timer').text(timer);
+    }, 1000);
+
     var game = new window.Game(data);
 });
 
