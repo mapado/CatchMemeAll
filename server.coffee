@@ -86,9 +86,9 @@ io.sockets.on 'connection', (socket) ->
         io.sockets.emit('score updated', player)
 
     # Add a wall and broadcast it to all players
-    socket.on 'add wall', (ax, ay, cx, cy) ->
-        io.sockets.emit('wall added', player, ax, ay, cx, cy)
+    socket.on 'add bubble', (x, y) ->
+        io.sockets.emit('bubble added', player, x, y)
 
     # Remove a wall and broadcast it to all players
-    socket.on 'remove wall', (ax, ay, cx, cy) ->
-        io.sockets.emit('wall removed', player, ax, ay, cx, cy)
+    socket.on 'remove bubble', (x, y) ->
+        io.sockets.emit('bubble removed', player, x, y)
