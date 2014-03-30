@@ -9,7 +9,7 @@ This project was coded by Julien Deniau, Christelle Mozzati, Julien Balian, Dimi
 ## Server
 ### Installation
 ```bash
-$ git clone https://github.com:fhactory/CatchMemeAll.git
+$ git clone https://github.com:fhacktory/CatchMemeAll.git
 $ npm install -g coffee-script
 $ npm install -g node-dev
 $ cd SaveTheInternet/server/
@@ -38,4 +38,3 @@ $ node-dev server/server.coffee
 
 ## Clients
 Open a recent Browser (suporting Websockets) on host: [http://vader.mapado.com:4242](http://vader.mapado.com:4242) and enjoy !
-
