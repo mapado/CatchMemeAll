@@ -75,6 +75,7 @@ $(function() {
         }
         $('#username-content').show();
         $('#login-select').hide();
+        $('#username').select();
 
         return false;
     });
