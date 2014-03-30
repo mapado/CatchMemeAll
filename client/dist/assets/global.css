@@ -70,7 +70,6 @@ h2 {
 }
 
 #winners-loosers {
-    margin-top: 50px;
     opacity: 0;
 }
 #winners-loosers.active {
