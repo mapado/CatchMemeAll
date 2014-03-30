@@ -67,8 +67,8 @@ socket.on('game stop', function () {
     console.log("GAME STOP");
 });
 
-socket.on('game start', function () {
-    game = new Game();
+socket.on('game start', function (data) {
+    var game = new window.Game(data);
 });
 
 $(function() {

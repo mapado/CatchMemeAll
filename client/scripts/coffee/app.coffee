@@ -40,20 +40,16 @@ class Ball
             @game.players[k.uuid].addScore(@score)
             @ball.kill()
 
-
-
 class Game
-    GameStatus =
-        INIT : 1
-        RUNNING : 2
-        SCORE : 3
 
-    constructor: (@status, @players) ->
+    constructor: (@players) ->
+        console.log @players
+
         # basic config
         @balls = null
         @buckets = null
         @colliders = null
-        @players = {}
+        @players = players
         # Generate the word
         self = this
         @phaser = new Phaser.Game(
@@ -95,7 +91,7 @@ class Game
     create: () ->
       console.log ':create'
       @phaser.physics.startSystem Phaser.Physics.P2JS
-      @phaser.physics.p2.gravity.y = 500
+      @phaser.physics.p2.gravity.y = 200
       @phaser.add.sprite 0, 0, 'sky'
 
       @buckets = @phaser.add.group()
@@ -136,4 +132,4 @@ class Game
     click: (pointer) ->
         @buildCollider(pointer)
 
-game = new Game()
+window.Game = Game
