@@ -39,9 +39,9 @@ io.sockets.on 'connection', (socket) ->
     socket.emit 'welcome', player
     socket.emit 'player list', game.playerList
 
+
     # Handle disconnection
     socket.on 'disconnect', () ->
-        player.sayGoodbye()
         game.removePlayer(player)
 
     socket.on 'logged in', (data) ->
