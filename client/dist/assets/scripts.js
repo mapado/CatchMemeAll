@@ -27,6 +27,7 @@ Player = (function() {
     pointer = max_space_player + idx * max_space_player - (max_space_player / 2);
     x = max_space_player + idx * max_space_player - (max_space_player / 2);
     y = this.game.phaser.world.height - 110;
+    this.remainingColliders = 5
     this.bucket = this.game.buckets.create(x, y, 'cloud'+ idx);
     this.bucket.width = max_space_player - 10;
     this.bucket.body.data.motionState = p2.Body.STATIC;
@@ -38,7 +39,7 @@ Player = (function() {
         fill: '#fff'
     });
 
-    this.scoreText = this.game.phaser.add.text(x - 60, y+70, '', {
+    this.scoreText = this.game.phaser.add.text(x - 60, y+70, '0', {
       font: '25px arial',
       fontWeight: 600,
       fill: '#1174AC'
@@ -189,13 +190,15 @@ Game = (function() {
   Game.prototype.render = function() {};
 
   Game.prototype.click = function(pointer) {
-    this.socket.emit('add bubble', {
-      x: pointer.x,
-      y: pointer.y
-    });
-  };
-
-  return Game;
+      if (this.remainingColliders > 0) {
+          this.socket.emit('add bubble', {
+              x: pointer.x,
+              y: pointer.y
+          });
+          this.remainingColliders =- 1;
+      }
+      return Game;
+  }
 
 })();
 
