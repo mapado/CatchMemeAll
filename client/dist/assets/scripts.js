@@ -67,6 +67,7 @@ Ball = (function() {
     this.type = type;
     this.ball = this.game.balls.create(this.coord, 0, type);
     this.ball.physicsBodyType = Phaser.Physics.P2JS;
+    this.ball.body.mass = 0.01
     this.ball.body.onBeginContact.add(this.captureBall, this);
   }
 
