@@ -1,14 +1,18 @@
 var socket = io.connect('http://vader.mapado.com');
 
+// update a player view
 function updatePlayer(player) {
+    var position, name, avatar;
     if (typeof player === "number") {
-        var position = player;
-        var name = '&nbsp;';
-        var avatar = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
+        // if a player is only a number: clean the view
+        position = player;
+        name = '&nbsp;';
+        // one pixel image
+        avatar = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
     } else {
-        var position = player.position;
-        var name = player.name;
-        var avatar = player.avatar;
+        position = player.position;
+        name = player.name;
+        avatar = player.avatar;
     }
 
     var playerDiv = $('#players .cloud:nth-child(' + position + ')');
@@ -18,6 +22,7 @@ function updatePlayer(player) {
         .attr('src', avatar);
 }
 
+// update the title plural
 function updateTitle(playerCount) {
     if (playerCount > 1) {
         $('#titlestart').html("<span id=\"nb-places-restantes\">" + playerCount + "</span> places");
@@ -30,10 +35,7 @@ function updateTitle(playerCount) {
     }
 }
 
-socket.on('welcome', function (data) {
-    console.log(data);
-});
-
+// gets an update on the player list
 socket.on('player list', function (playerList) {
     newPlayerCount = 5 - playerList.length;
     if (newPlayerCount == 0) {
@@ -44,18 +46,21 @@ socket.on('player list', function (playerList) {
         updateTitle(newPlayerCount);
     }
 
+    // update all present players
     var nbPlayer = 1;
     for (i in playerList) {
         updatePlayer(playerList[i]);
         nbPlayer++;
     }
 
+    // remove empty spaces when a users leaves
     while (nbPlayer < 5) {
         updatePlayer(nbPlayer);
         nbPlayer++;
     }
 });
 
+// a new player is comming
 socket.on('new player', function (player) {
     oldPlayerCount = $('#nb-places-restantes').text();
     newPlayerCount = oldPlayerCount - 1;
@@ -63,15 +68,12 @@ socket.on('new player', function (player) {
     updatePlayer(player);
 });
 
-socket.on('character spawned', function (data) {
-    console.log(data);
-});
-
+// a player gets an update
 socket.on('player updated', function (player) {
-    console.log('player updated', player);
     updatePlayer(player);
 });
 
+// trigger sounds on score update and bubble add events
 socket.on('score updated', function (player) {
     $('#sound-point').trigger('play');
 });
@@ -86,21 +88,27 @@ socket.on('game full', function () {
     $('#login-select').hide();
 });
 
+// set a user on the podim
 function setPodium(div, player) {
     div.find('.avatar').attr('src', player.avatar);
     div.find('.username').text(player.name);
 }
 
+// game stop
 socket.on('game stop', function (playerList) {
+    // generate the podium
     setPodium($('#winners .winner'), playerList[0]);
     setPodium($('#winners .cloud:nth-child(1)'), playerList[1]);
     setPodium($('#winners .cloud:nth-child(3)'), playerList[2]);
     setPodium($('#losers .cloud:nth-child(1)'), playerList[3]);
     setPodium($('#losers .cloud:nth-child(2)'), playerList[4]);
 
+    // changes the view, show the podium, clean sounds
     $('#connect').hide();
     $('#game').hide();
     $('#podium').show();
+    $('#sound-point').remove();
+    $('#sound-nsa').remove();
     $('.the-end').addClass('active');
     setTimeout(function () {
         $('.the-end').removeClass('active');
@@ -109,14 +117,14 @@ socket.on('game stop', function (playerList) {
             $('#winners-loosers').addClass('active');
         }, 1000);
     }, 3000);
-
-    console.log("GAME STOP");
 });
 
+// the game will be launched in 5 seconds
 socket.on('game countdown', function (data) {
     var i = 5;
     var countdown = setInterval(function () {
         var text = i;
+        // the "0" special view
         if (i == 0) {
             text = 'Catch all the memes!';
             $('#pagetitle').removeClass('the-end active');
@@ -126,40 +134,42 @@ socket.on('game countdown', function (data) {
             });
             $('#pagetitle').after(img);
         } else if (i < 0) {
+            // the game is starting
             $('#allthething').remove();
             clearInterval(countdown);
             return;
         } else {
+            // classic number
             $('#pagetitle').addClass('the-end active');
         }
 
-
+        // changes the title
         $('#pagetitle').text(text);
         i = i - 1;
     }, 1000);
 });
 
+// the game really starts
 socket.on('game start', function (data) {
+    // display the timer
     $('#timer').show();
+
+    // awful tweak pixel-perfect players position thing
     $('#players').addClass('playing');
+
+    // manage the countdown
     var timer = 30;
     setInterval(function () {
         timer = timer - 1;
         $('#timer').text(timer);
     }, 1000);
 
+    // let's start the game
     var game = new window.Game(data);
 });
 
 $(function() {
-    $('.twitter-connect, .connect').on('click', function () {
-        $('#username-content').show();
-        $('#login-select').hide();
-        $('#username').select();
-
-        return false;
-    });
-
+    // login username function
     $('#username-content').on('submit', function () {
         // lets connect to the user
         username = $('#username').val()
