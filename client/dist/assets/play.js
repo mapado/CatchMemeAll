@@ -94,16 +94,37 @@ socket.on('game stop', function (playerList) {
     $('#connect').hide();
     $('#game').hide();
     $('#podium').show();
-    $('#the-end').addClass('active');
+    $('.the-end').addClass('active');
     setTimeout(function () {
-        $('#the-end').removeClass('active');
+        $('.the-end').removeClass('active');
         setTimeout(function () {
-            $('#the-end').hide();
+            $('.the-end').hide();
             $('#winners-loosers').addClass('active');
         }, 1000);
     }, 3000);
 
     console.log("GAME STOP");
+});
+
+socket.on('game countdown', function (data) {
+    var i = 5;
+    var countdown = setInterval(function () {
+        var text = i;
+        if (i == 0) {
+            text = 'Catch all the memes!';
+            $('#pagetitle').removeClass('the-end active')
+                .append('<img src="assets/images/allthethings.png" ></img>');
+        } else if (i < 0) {
+            clearInterval(countdown);
+            return;
+        } else {
+            $('#pagetitle').addClass('the-end active');
+        }
+
+
+        $('#pagetitle').text(text);
+        i = i - 1;
+    }, 1000);
 });
 
 socket.on('game start', function (data) {

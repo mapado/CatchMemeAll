@@ -37,6 +37,7 @@ io.sockets.on 'connection', (socket) ->
 
     # Send joining information to all players
     player.sayHello()
+    console.log(game.playerList.length)
     socket.emit 'welcome', player
     socket.emit 'player list', game.playerList
 
@@ -48,6 +49,7 @@ io.sockets.on 'connection', (socket) ->
     # fetch the player's avatar given its username
     socket.on 'logged in', (data) ->
         player.name = data.name
+        console.log('user ' + player.name + ' is logged')
 
         # if user is a twitter account, let's fetch his avatar
         if data.isTwitter
@@ -78,8 +80,13 @@ io.sockets.on 'connection', (socket) ->
 
         # Start the game when the required number of players have joined
         if game.isReady()
-            io.sockets.emit 'game start', game
-            game.start()
+            io.sockets.emit 'game countdown', game
+            setTimeout(
+                () ->
+                    io.sockets.emit 'game start', game
+                    game.start()
+                7000
+            )
 
 
     # Update the player score and broadcast its new score to all clients

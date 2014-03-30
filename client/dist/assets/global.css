@@ -54,19 +54,19 @@ h1 {
 }
 
 
-#the-end {
+.the-end {
 	padding-top: 250px;
 	font-size: 72px;
     opacity: 0;
 }
-#the-end.active {
+.the-end.active {
     opacity: 1;
     transition: opacity 1s linear;
     -webkit-transition: 1s linear;
 }
 
 #winners-loosers {
-    margin-top: 150px;
+    margin-top: 50px;
     opacity: 0;
 }
 #winners-loosers.active {
