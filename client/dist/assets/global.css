@@ -180,6 +180,11 @@ p {
 	padding-bottom: 30px;
 }
 
+canvas {
+    width: 1200px;
+    margin: 0px auto;
+}
+
 #allthethings {
 	margin: 0 auto;
 }
