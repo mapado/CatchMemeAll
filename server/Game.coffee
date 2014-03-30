@@ -4,7 +4,7 @@ EventEmitter = (require 'events').EventEmitter
 
 
 class Game
-    @MAX_GAME_TIME = 15000
+    @MAX_GAME_TIME = 30000
     @MAX_PLAYERS: 5
 
     constructor: ()->
