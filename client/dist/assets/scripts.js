@@ -38,10 +38,10 @@ Player = (function() {
         fill: '#fff'
     });
 
-    this.scoreText = this.game.phaser.add.text(x - 50, y+60, '', {
-      font: '20px arial',
+    this.scoreText = this.game.phaser.add.text(x - 60, y+70, '', {
+      font: '22px arial',
       fontWeight: 600,
-      fill: '#88f'
+      fill: '#008'
     });
   }
 
