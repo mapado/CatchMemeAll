@@ -37,16 +37,23 @@ Player = (function() {
         font: '28px arial',
         fill: '#fff'
     });
+
+    game.load.image('image-url'+id, avatar);
+
+    this.image = new Phaser.Image(game.phaser, x- 50, y-10, avatar);
+    game.add.sprite(30, 30, 'image-url' + id);
+
+
     this.scoreText = this.game.phaser.add.text(x - 50, y+85, '', {
       font: '20px arial',
-      fill: '#00f'
+      fontWeight: 600,
+      fill: '#88f'
     });
-    console.log(id, avatar, name, position);
   }
 
   Player.prototype.displayScore = function(score) {
     this.score = parseInt(score);
-    this.scoreText.setText(this.name + ": " + this.score);
+    this.scoreText.setText(this.score);
   }
 
   Player.prototype.sendScore = function(score) {
@@ -102,8 +109,7 @@ Game = (function() {
       render: (function() {
         return self.render();
       })
-    },
-    true);
+    }, true);
     this.socket = socket;
 
     this.socket.on('character spawned', (function(data) {
