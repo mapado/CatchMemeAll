@@ -13,7 +13,7 @@ class Player
         pointer = max_space_player + @id * max_space_player - (max_space_player / 2)
 
         x =  max_space_player + @id * max_space_player - (max_space_player / 2)
-        y =  @game.phaser.world.height - 64
+        y =  @game.phaser.world.height - 25
 
         @bucket = @game.buckets.create x, y, 'ground'
         @bucket.width = max_space_player - 10
@@ -66,6 +66,7 @@ class Game
             update: (-> self.update()),
             render: (-> self.render())
         )
+        @socket = socket
         @socket.on('new player', ((data) -> console.log data))
         @socket.on('character spawned', ((data) -> console.log data))
         @socket.on('game stop', (-> console.log "GAME STOP" ))

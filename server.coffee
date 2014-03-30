@@ -76,7 +76,7 @@ io.sockets.on 'connection', (socket) ->
 
         # Start the game when the required number of players have joined
         if game.isReady()
-            io.sockets.emit 'game start'
+            io.sockets.emit 'game start', game
             game.start()
 
 

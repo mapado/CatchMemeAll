@@ -67,6 +67,10 @@ socket.on('game stop', function () {
     console.log("GAME STOP");
 });
 
+socket.on('game start', function () {
+    game = new Game();
+});
+
 $(function() {
     $('.twitter-connect, .connect').on('click', function () {
         $('#username-content').show();
