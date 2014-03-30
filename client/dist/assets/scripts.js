@@ -135,10 +135,15 @@ Game = (function() {
     this.phaser.load.image('cloud4', '/assets/images/cloud5.png');
     this.phaser.load.image('Facebook', '/assets/images/fb-evil.png');
     this.phaser.load.image('Cat', '/assets/images/cat.png');
-    this.phaser.load.image('Nyancat', '/assets/images/nyancat.png');
+    this.phaser.load.image('NyanCat', '/assets/images/nyancat.png');
     this.phaser.load.image('Unicorn', '/assets/images/unicorn.png');
     this.phaser.load.image('Trollface', '/assets/images/trollface.png');
     this.phaser.load.image('collider', '/assets/images/NSA.png');
+    _ref = this.initPlayers.playerList;
+    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+      p = _ref[_i];
+      this.phaser.load.image(p.id, p.avatar);
+    }
   };
 
   Game.prototype.create = function() {
