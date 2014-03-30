@@ -12,7 +12,7 @@ function updateTitle(playerCount) {
     if (playerCount > 1) {
         $('#nb-places-restantes').text(playerCount);
     } else if (playerCount == 1){
-        $('#pagetitle').html("Il reste <span id=\"nb-places-restantes\">1</span> place!");
+        $('#titlestart').html("<span id=\"nb-places-restantes\">1</span> place");
     } else if (playerCount == -1){
         $('#pagetitle').text("Desole, le jeu est complet !");
     } else {
