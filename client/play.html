@@ -47,16 +47,11 @@
 			</div>
 		</div>
         <form id="username-content">
-            <input type="text" id="username" placeholder="Votre nom d'utilisateur" />
+            <input type="text" id="username" placeholder="Votre nom d'utilisateur Twitter (avec le @) ou votre prénom" />
             <input type="hidden" id="isTwitter" value="0" />
-            <input type="submit" />
-        </div>
-        <div id="login-select">
-            <a href="#" class="button twitter-connect">Entrez votre username Twitter</a>
-            <p class="or">Pas de compte twitter?</p>
-            <a href="#" class="light-button connect">Entrez votre nom</a>
-            <p>(mais vous ne verrez pas votre joli avatar)</p>
-        </div>
+            <input type="submit" class="button" />
+        </form>
+
 	</div>
 
     <script src="/socket.io/socket.io.js"></script>
