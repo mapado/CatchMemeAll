@@ -14,7 +14,7 @@ app.get '/', (req, res) ->
     res.sendfile(__dirname + '/client/home.html')
 
 app.get '/play', (req, res) ->
-    res.sendfile(__dirname + '/client/connect.html')
+    res.sendfile(__dirname + '/client/play.html')
 
 # instantiate a new game
 game = new Game
