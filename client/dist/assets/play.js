@@ -1,4 +1,4 @@
-var socket = io.connect('http://vader.mapado.com');
+var socket = io.connect('http://www.catchmemeall.com');
 
 // update a player view
 function updatePlayer(player) {

@@ -9,17 +9,16 @@ This project was coded by Julien Deniau, Christelle Mozzati, Julien Balian, Dimi
 ## Server
 ### Installation
 ```bash
-$ git clone https://github.com:fhacktory/CatchMemeAll.git
+$ git clone https://github.com:mapado/CatchMemeAll.git
+$ cd CatchMemeAll
 $ npm install -g coffee-script
-$ npm install -g node-dev
-$ cd SaveTheInternet/server/
-$ make # Will install the dependencies
+$ npm install
 ```
 
 ### Run the server
 #### Production
 ``` bash
-$ node server.js
+$ node server.js  # not working for now, need to convert the .coffee file to JS
 ```
 
 You also need to run a Python flask server talking to the twitter API.
@@ -30,10 +29,9 @@ $ python twitter_server.py
 
 #### Dev mode
 ```bash
-$ cd server/
-$ coffee -c *.coffee
-$ node-dev server/server.coffee
+$ npm install -g node-dev
+$ node-dev server.coffee
 ```
 
 ## Clients
-Open a recent Browser (suporting Websockets) on host: [http://vader.mapado.com:4242](http://vader.mapado.com:4242) and enjoy !
+Open a recent Browser (suporting Websockets) on host: [http://www.catchmemeall.com](http://www.catchmemeall.com) and enjoy !

@@ -1,0 +1,14 @@
+{
+    "name": "CatchMemeAll",
+    "version": "0.1.0",
+    "dependencies": {
+        "socket.io": "~1.0",
+        "express": "~3.0.0",
+        "coffee-script": "*"
+    },
+    "devDependencies": {
+        "node-dev": "*",
+        "grunt-contrib-coffee": "*"
+    }
+}
+
